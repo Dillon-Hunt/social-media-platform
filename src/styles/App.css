@@ -1,0 +1,38 @@
+*:root {
+  --font-36: 36px;
+  --font-18: 18px;
+  --font-12: 12px;
+
+  --charade: #252731;
+  --light-charade: #2A2C36;
+  --valencia: #D63030;
+  --shamrock: #39CC97;
+  --white: #FFF;
+
+  font-weight: 600;
+
+  background-color: var(--charade);
+  
+  font-family: 'Rubik', sans-serif;
+}
+
+h2, h3 {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 20px;
+
+  overflow-x: hidden;
+}
+
+.App {
+  font-family: 'Rubik', sans-serif;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}

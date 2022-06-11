@@ -1,0 +1,14 @@
+.MobileStoriesView {
+    margin: 20px 0;
+    gap: 20px;
+
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.MobileStoriesView::-webkit-scrollbar {
+    display: none;
+}
