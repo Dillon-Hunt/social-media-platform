@@ -1,0 +1,93 @@
+.MobilePost {
+    width: 100%;
+
+}
+
+.MobilePost__ProfileSection {
+    width: calc(100% - 80px);
+    height: 60px;
+
+    padding: 0 10px 0 70px;
+    margin: 0 0 10px 0;
+
+    font-size: var(--font-18);
+    line-height: 18px;
+
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: clip;
+}
+
+.MobilePost__ProfileIcon {
+    width: 60px;
+    height: 60px;
+
+    left: 0;
+    border-radius: 50%;
+
+    position: absolute;
+}
+
+.MobilePost__Username {
+    margin: 10px 0 0 0;
+
+    color: var(--white);
+}
+
+.MobilePost__Time {
+    margin: 4px 0 10px 0;
+
+    color: var(--shamrock);
+}
+
+.MobilePost__ImageSection {
+    width: 100%;
+
+    border-radius: 10px;
+
+    position: relative;
+    overflow: clip;
+}
+
+.MobilePost__Image {
+    width: 100%;
+
+    vertical-align: bottom
+}
+
+.MobilePost__Overlay {
+    width: calc(100% - 40px);
+    height: 25px;
+
+    bottom: 0;
+    padding: 15px 20px;
+    gap: 20px;
+
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+}
+
+.icon25 {
+    margin: 0;
+    line-height: 25px;
+
+    color: #fff;
+}
+
+.MobilePost__Overlay__More {
+    right: 20px;
+
+    position: absolute;
+}
+
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    .MobilePost__Overlay {
+      background-color: rgba(0, 0, 0, .8);
+    }
+  }

@@ -1,5 +1,6 @@
 import MobileHeader from '../components/MobileHeader';
 import MobileStoriesView from '../components/MobileStoriesView';
+import MobilePostsView from '../components/MobilePostsView';
 
 function MobileHome() {
   return (
@@ -7,6 +8,7 @@ function MobileHome() {
 
       <MobileHeader />
       <MobileStoriesView />
+      <MobilePostsView />
 
     </div>
   );
