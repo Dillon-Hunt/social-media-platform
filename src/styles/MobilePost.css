@@ -1,6 +1,11 @@
 .MobilePost {
-    width: 100%;
+    width: calc(100%);
 
+    padding-top: 20px;
+    border-top: 2px solid var(--light-charade);
+    /* border-radius: 10px; */
+
+    /* background-color: var(--light-charade); */
 }
 
 .MobilePost__ProfileSection {
@@ -8,7 +13,7 @@
     height: 60px;
 
     padding: 0 10px 0 70px;
-    margin: 0 0 10px 0;
+    margin: 0 0 20px 0;
 
     font-size: var(--font-18);
     line-height: 18px;
@@ -84,6 +89,33 @@
     right: 20px;
 
     position: absolute;
+}
+
+.MobilePost__CaptionSection {
+    font-weight: 400;
+}
+
+.MobilePost__Content {
+    margin: 20px 0 0 0;
+
+    color: var(--white);
+    font-size: var(--font-14);
+}
+
+.MobilePost__Tags {
+    margin: 5px 0 0 0;
+
+    color: var(--shamrock);
+
+    gap: 10px;
+    font-size: var(--font-10);
+
+    display: flex;
+    flex-direction: row;
+}
+
+.MobilePost__Tags p {
+    margin: 0;
 }
 
 @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {

@@ -17,6 +17,15 @@ function MobilePost() {
             <p className="icon25 MobilePost__Overlay__More">○ ○ ○</p>
           </div>
         </div>
+
+
+        <div className="MobilePost__CaptionSection">
+          <p className="MobilePost__Content">Gorgeous mountain range over the country side down near the big THING everyone is talking about.</p>
+          <div className="MobilePost__Tags">
+            <p>#Mountains</p> {/* These will be <a></a> tags at some point */}
+            <p>#Nature</p>
+          </div>
+        </div>
       </div>
     );
   }
