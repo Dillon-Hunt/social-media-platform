@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MobileHome from '../pages/MobileHome'
 import MobileProfile from '../pages/MobileProfile'
 
+import MobileNavigationBar from '../components/MobileNavigationBar'
+
 // Desktop
 
 // Other
@@ -22,6 +24,9 @@ function App() {
 
           <Route path="*" element={<NoPage />} />
         </Routes>
+
+        <MobileNavigationBar />
+
       </BrowserRouter>
     </div>
   );
