@@ -1,0 +1,40 @@
+.MobileAccount {
+    left: 50%;
+    
+
+    transform: translateX(-50%);
+
+    position: absolute;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.MobileAccount__ProfileIcon {
+    width: 80px;
+    height: 80px;
+
+    top: -60px;
+    left: 7.5px;
+    border-radius: 50%;
+
+    position: absolute;
+}
+
+.MobileAccount__Name {
+    padding: 25px 0 0 0;
+    margin: 0;
+    font-weight: 600;
+
+    font-size: var(--font-18);
+    color: var(--white);
+}
+
+.MobileAccount__Username {
+    padding: 0;
+    margin: 0;
+    font-weight: 300;
+
+    font-size: var(--font-14);
+    color: var(--white);
+}

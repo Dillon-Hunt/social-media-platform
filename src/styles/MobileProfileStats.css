@@ -1,0 +1,30 @@
+.MobileProfileStats {
+    width: 100%;
+
+    margin: 80px 0 0 0;
+    border-radius: 10px;
+    gap: calc(25% - 40px);
+
+    border: 2px solid var(--light-charade);
+    color: var(--white);
+
+    display: flex;
+    justify-content: center;
+}
+
+.MobileProfileStats__Stat {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.MobileProfileStats__Stat__Count {
+    margin: 10px 0 2px 0;
+    font-weight: 600;
+}
+
+.MobileProfileStats__Stat__Name {
+    margin: 0 0 10px 0;
+    font-weight: 300;
+}

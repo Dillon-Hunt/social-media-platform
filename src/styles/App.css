@@ -14,7 +14,9 @@
   font-weight: 600;
 
   background-color: var(--charade);
-  
+  scrollbar-color: var(--shamrock) transparent;
+
+  scrollbar-width: thin;
   font-family: 'Rubik', sans-serif;
 }
 

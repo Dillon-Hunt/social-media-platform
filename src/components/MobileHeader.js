@@ -1,5 +1,7 @@
 import '../styles/MobileHeader.css'
 
+let newNotifications = false
+
 function MobileHeader() {
   return (
     <div className="MobileHeader">
@@ -7,7 +9,7 @@ function MobileHeader() {
         <h3 className="MobileHeader__Subtitle">Good Morning</h3>
 
         <div className="NotificationBell">
-            <div className="NotificationBell__Image" notifications="true" />
+            <img className="NotificationBell__Image" src={`../../placeholders/notifications${newNotifications ? '-active' : ''}.svg`} alt='' />
         </div>
     </div>
   );
