@@ -1,6 +1,5 @@
 import MobileProfileBanner from '../components/MobileProfileBanner'
 import MobileProfileOverlay from '../components/MobileProfileOverlay'
-import MobileProfileStats from '../components/MobileProfileStats'
 
 let user = {
   id: '00000001',
@@ -38,7 +37,6 @@ function MobileProfile() {
   
         <MobileProfileBanner user={user} />
         <MobileProfileOverlay user={user} />
-        <MobileProfileStats user={user} />
   
       </div>
     );
