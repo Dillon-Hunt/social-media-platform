@@ -1,0 +1,20 @@
+.NoPage {
+    top: calc(50vh - 40px);
+    left: 50vw;
+
+    transform: translate(-50%, -50%);
+    color: var(--white);
+
+    position: absolute;
+    text-align: center;
+}
+
+.NoPage__Heading {
+    font-size: var(--font-36);
+    margin: 5px 0;
+}
+
+.NoPage__Subheading {
+    font-weight: 300;
+    margin: 5px 0;
+}
