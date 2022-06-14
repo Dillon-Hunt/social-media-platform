@@ -1,12 +1,11 @@
 // import MediaQuery from 'react-responsive';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react"
 
 // Mobile
 import MobileHome from '../pages/MobileHome'
 import MobileSearch from '../pages/MobileSearch'
 import MobileProfile from '../pages/MobileProfile'
-
-import MobileNavigationBar from '../components/MobileNavigationBar'
 
 // Desktop
 
@@ -114,21 +113,36 @@ let user = {
 }
 
 function App() {
+  const imagesPreload = ['../../placeholders/home.svg', '../../placeholders/home-selected.svg', '../../placeholders/search.svg', '../../placeholders/search-selected.svg', '../../placeholders/group.svg', '../../placeholders/group-selected.svg', '../../placeholders/person.svg', '../../placeholders/person-selected.svg', ];
+
+  useEffect(() => {
+    imagesPreload.forEach((image) => {
+      const newImage = new Image();
+      newImage.src = image;
+      window[image] = newImage;
+    });
+  })
+    
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route index path='/' element={<MobileHome posts={posts} user={user} />} />
-          <Route index path='/search' element={<MobileSearch posts={posts} user={user} />} />
-          <Route path='/profile' element={<MobileProfile />} />
-          <Route path='/profile/:page' element={<MobileProfile />} />
+      {
+        (window.innerWidth <= 1000 && /* Not Responsive */
+        <BrowserRouter>
+          <Routes>
+            <Route index path='/' element={<MobileHome posts={posts} user={user} />} />
+            <Route index path='/search' element={<MobileSearch posts={posts} user={user} />} />
+            <Route path='/profile' element={<MobileProfile />} />
+            <Route path='/profile/:page' element={<MobileProfile />} />
 
-          <Route path="*" element={<NoPage />} />
-        </Routes>
+            <Route path="*" element={<NoPage />} />
+          </Routes>
 
-        <MobileNavigationBar />
+        </BrowserRouter>)
 
-      </BrowserRouter>
+        ||
+
+        <p style={{color: '#fff'}}>Desktop View Is Not Yet Supported</p>
+      }
     </div>
   );
 }

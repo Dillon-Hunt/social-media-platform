@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import '../styles/MobileAccountContent.css'
 
@@ -10,9 +10,9 @@ function MobileAccountContent(props) {
     return (
       <div className="MobileAccountContent">
         <div className="MobileAccountContent__Navigation">
-            <a className="MobileAccountContent__Navigation__Link" href="../profile/photos" active={(page === 'photos').toString()}>Photos</a>
-            <a className="MobileAccountContent__Navigation__Link" href="../profile/videos" active={(page === 'videos').toString()}>Videos</a>
-            <a className="MobileAccountContent__Navigation__Link" href="../profile/tags" active={(page === 'tags').toString()}>Tags</a>
+            <Link to={'../profile/photos'} className="MobileAccountContent__Navigation__Link" active={(page === 'photos').toString()}>Photos</Link>
+            <Link to={'../profile/videos'} className="MobileAccountContent__Navigation__Link" active={(page === 'videos').toString()}>Videos</Link>
+            <Link to={'../profile/tags'} className="MobileAccountContent__Navigation__Link" active={(page === 'tags').toString()}>Tags</Link>
         </div>
         
         <div className="MobileAccountContent__Gallery">

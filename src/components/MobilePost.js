@@ -1,3 +1,5 @@
+import React, {useState} from "react";
+
 import '../styles/MobilePost.css'
 
 // Helper Functions
@@ -22,6 +24,14 @@ function getValueString(count) {
 function MobilePost(props) {
   let { post, user } = props
 
+  const [loaded, setLoaded] = useState(false)
+
+  const image = new Image();
+  image.src = '../../placeholders/1.jpg'
+  image.onload = () => {
+    setLoaded(true)
+  }
+
   return (
     <div className="MobilePost">
       <div className="MobilePost__ProfileSection">
@@ -31,7 +41,10 @@ function MobilePost(props) {
       </div>
 
       <div className="MobilePost__ImageSection">
-        <img className="MobilePost__Image" src={post.content.images[0]} alt="" /> {/* Add Slideshow In Future */}
+        {
+          (!loaded && <div className="MobilePost__Image__Loader" />)
+          || <img className="MobilePost__Image" src={post.content.images[0]} alt="" />
+        } {/* Add Slideshow In Future */}
         <div className="MobilePost__Overlay">
           <div className="icon25">
             <img className="MobilePost__Overlay__Icon" src={`../../placeholders/favorite${user.favorites.includes(post.data.id) ? "-filled" : ""}.svg`} alt="favorite" />

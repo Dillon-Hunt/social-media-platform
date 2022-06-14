@@ -3,6 +3,8 @@ import React, {useState} from "react";
 import MobileResultsView from '../components/MobileResultsView'
 import MobilePost from '../components/MobilePost'
 
+import MobileNavigationBar from '../components/MobileNavigationBar'
+
 import '../styles/MobileSearch.css'
 
 function MobileSearch(props) {
@@ -28,19 +30,23 @@ function MobileSearch(props) {
     <div className="MobileSearch">
       <input className="MobileSearch__Input" placeholder="Search..." onChange={handleSearchInput} value={searchInput} />
       
+      {/* Show Users Too */}
+
       {
-        searchInput.length > 0 
+        (searchInput.length > 0 
         
         && 
 
         results.map((result, idx) => {
           return <MobilePost key={idx} post={result} user={user} />
-        })
+        }))
 
         || 
           
         <MobileResultsView />
       }
+
+      <MobileNavigationBar />
     </div>
   );
 }
