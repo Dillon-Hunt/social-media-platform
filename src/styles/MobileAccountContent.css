@@ -1,0 +1,75 @@
+.MobileAccountContent {
+    margin-top: 20px;
+}
+
+.MobileAccountContent__Gallery {
+    gap: 5px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+.MobileAccountContent__Gallery__Item {
+    width: calc((100vw - 40px) / 3 - (10px / 3));
+    height: calc((100vw - 40px) / 3 - (10px / 3));
+
+    object-fit: cover;
+}
+
+.MobileAccountContent__Navigation {
+    margin: 0 0 20px 0;
+
+    gap: calc(100% / 3 - 100px);
+
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.MobileAccountContent__Navigation::before {
+    width: 100vw;
+    height: 2px;
+
+    left: -20px;
+    bottom: -5px;
+
+    background-color: var(--light-charade);
+
+
+    position: absolute;
+    content: '';
+}
+
+.MobileAccountContent__Navigation__Link {
+    width: 100px;
+
+    font-weight: 300;
+
+    color: var(--white);
+
+    position: relative;
+    text-decoration: none;
+}
+
+.MobileAccountContent__Navigation__Link[active= true] {
+    color: var(--shamrock);
+}
+
+.MobileAccountContent__Navigation__Link[active= true]::after {
+    width: 80px;
+    height: 2px;
+
+    bottom: -5px;
+    left: 50%;
+
+    transform:translateX(-50%);
+    background-color: var(--shamrock);
+
+
+    position: absolute;
+    content: '';
+}

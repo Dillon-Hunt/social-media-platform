@@ -1,16 +1,5 @@
 import '../styles/MobilePost.css'
 
-let user = {
-  id: '00000001',
-  name: 'Dillon Hunt',
-  username: 'Dillon_Hunt',
-  profileIcon: '../../placeholders/1.jpg',
-  profileBanner: '../../placeholders/2.jpg',
-  favorites: [
-    '00000001'
-  ]
-}
-
 // Helper Functions
 function getTimeString(milliseconds) {
   let time = Math.floor(milliseconds / 31536000000) 
@@ -31,7 +20,7 @@ function getValueString(count) {
 }
 
 function MobilePost(props) {
-  let post = props.post
+  let { post, user } = props
 
   return (
     <div className="MobilePost">

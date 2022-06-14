@@ -1,0 +1,15 @@
+.MobileSearch__Input {
+    height: 60px;
+    width: 100%;
+
+    border-radius: 10px;
+    padding: 20px;
+
+    font-size: var(--font-14);
+    border: 2px solid var(--shamrock);
+    color: var(--white);
+    font-family: 'Rubik', sans-serif;
+
+    background-color: transparent;
+    box-sizing: border-box;
+}

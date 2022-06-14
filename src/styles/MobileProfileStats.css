@@ -3,7 +3,7 @@
 
     margin: 80px 0 0 0;
     border-radius: 10px;
-    gap: calc(25% - 40px);
+    gap: calc(100% / 3 - 100px);
 
     border: 2px solid var(--light-charade);
     color: var(--white);
@@ -13,6 +13,8 @@
 }
 
 .MobileProfileStats__Stat {
+    width: 100px;
+
     display: flex;
     justify-content: center;
     flex-direction: column;

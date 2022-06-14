@@ -1,8 +1,6 @@
 .MobilePostsView {
     width: 100%;
 
-    gap: 20px;
-
     display: flex;
     flex-direction: column;
 }

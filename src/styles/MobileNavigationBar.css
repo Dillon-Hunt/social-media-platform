@@ -5,7 +5,7 @@
     left: 0;
     top: calc(100vh - 60px);
 
-    background-color: var(--charade);
+    background-color: var(--light-charade);
     color: var(--white);
 
     text-align: center;
@@ -40,7 +40,7 @@
     left: 0;
 
     background-color: var(--shamrock);
-    border: 5px solid var(--charade);
+    border: 5px solid var(--light-charade);
     transform: translate(-50%, -50%);
 
     position: absolute;
