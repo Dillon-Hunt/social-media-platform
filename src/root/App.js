@@ -14,6 +14,27 @@ import NoPage from '../pages/NoPage'
 
 import '../styles/App.css';
 
+// Import the functions you need from the SDKs you need
+
+import { initializeApp } from "firebase/app";
+
+import { getAnalytics } from "firebase/analytics";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDu7SiKmJqUD21ja3_skiS7D_Z-OF0053c",
+  authDomain: "social-media-app-fcc1f.firebaseapp.com",
+  projectId: "social-media-app-fcc1f",
+  storageBucket: "social-media-app-fcc1f.appspot.com",
+  messagingSenderId: "1063507743990",
+  appId: "1:1063507743990:web:8b6b95ab0bd492ef80c8d7",
+  measurementId: "G-YRJEKF6LLK"
+}
+
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
 // Dummy Data
 let posts = [
   {
@@ -112,6 +133,84 @@ let user = {
   ]
 }
 
+let communities = [
+  { 
+    data: {
+      id: '00000001',
+      tags: [
+        'Gaming',
+        'Fortnite',
+        'Games',
+      ],
+      yearCreated: '2022',
+    },
+    name: 'Gaming',
+    description: 'The top place to hang out with fellow gamers and discuss all things gaming!',
+    banner: '../../placeholders/3.jpg',
+    members: [
+      '00000001', 
+      '00000002',
+    ],
+    posts: [
+      '00000001',
+      '00000002',
+      '00000001',
+      '00000002',
+      '00000001',
+    ]
+  },
+  { 
+    data: {
+      id: '00000001',
+      tags: [
+        'Cats',
+        'Animals',
+        'Love',
+      ],
+      yearCreated: '2021',
+    },
+    name: 'Cool Cats',
+    description: 'We love cats, cats and more cats. For all you cat needs join the Cool Cats.',
+    banner: '../../placeholders/4.jpg',
+    members: [
+      '00000001', 
+      '00000002',
+    ],
+    posts: [
+      '00000001',
+      '00000002',
+      '00000001',
+      '00000002',
+      '00000001',
+    ]
+  },
+  { 
+    data: {
+      id: '00000001',
+      tags: [
+        'Mountains',
+        'Nature',
+        'Hills',
+      ],
+      yearCreated: '2022',
+    },
+    name: 'Mountains',
+    description: 'Explore the great outdoors from the comfort of you home with som awesome mountains.',
+    banner: '../../placeholders/1.jpg',
+    members: [
+      '00000001', 
+      '00000002',
+      '00000001', 
+      '00000002',
+    ],
+    posts: [
+      '00000001',
+      '00000002',
+      '00000001',
+    ]
+  }
+]
+
 function App() {
   const imagesPreload = ['../../placeholders/home.svg', '../../placeholders/home-selected.svg', '../../placeholders/search.svg', '../../placeholders/search-selected.svg', '../../placeholders/group.svg', '../../placeholders/group-selected.svg', '../../placeholders/person.svg', '../../placeholders/person-selected.svg', ];
 
@@ -130,7 +229,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route index path='/' element={<MobileHome posts={posts} user={user} />} />
-            <Route index path='/search' element={<MobileSearch posts={posts} user={user} />} />
+            <Route index path='/search' element={<MobileSearch posts={posts} user={user} communities={communities} />} />
             <Route path='/profile' element={<MobileProfile />} />
             <Route path='/profile/:page' element={<MobileProfile />} />
 

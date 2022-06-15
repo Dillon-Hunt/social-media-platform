@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-import MobileResultsView from '../components/MobileResultsView'
+import MobileCommunityThumbnail from '../components/MobileCommunityThumbnail'
 import MobilePost from '../components/MobilePost'
 
 import MobileNavigationBar from '../components/MobileNavigationBar'
@@ -8,7 +8,7 @@ import MobileNavigationBar from '../components/MobileNavigationBar'
 import '../styles/MobileSearch.css'
 
 function MobileSearch(props) {
-  let { posts, user } = props
+  let { posts, user, communities } = props
   let results = posts
 
   const [searchInput, setSearchInput] = useState("");
@@ -43,7 +43,9 @@ function MobileSearch(props) {
 
         || 
           
-        <MobileResultsView />
+        communities.map((community, idx) => {
+          return <MobileCommunityThumbnail key={idx} community={community} />
+        })
       }
 
       <MobileNavigationBar />
