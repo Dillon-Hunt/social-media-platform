@@ -8,7 +8,7 @@ import MobileNavigationBar from '../components/MobileNavigationBar'
 import '../styles/MobileSearch.css'
 
 function MobileSearch(props) {
-  let { posts, user, communities } = props
+  let { posts, user, communities, database } = props
   let results = posts
 
   const [searchInput, setSearchInput] = useState("");
@@ -38,7 +38,7 @@ function MobileSearch(props) {
         && 
 
         results.map((result, idx) => {
-          return <MobilePost key={idx} post={result} user={user} />
+          return <MobilePost key={idx} post={result} user={user} database={database} />
         }))
 
         || 

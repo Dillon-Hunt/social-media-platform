@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
+import { getFirestore, collection, getDocs, getDoc, doc } from "firebase/firestore"
 
 import '../styles/MobilePost.css'
 
@@ -14,6 +15,8 @@ function getTimeString(milliseconds) {
 }
 
 function getValueString(count) {
+  if (count === 0) return <strong>0</strong>
+
   let value = Math.floor(count / 1000000)
   let symbol = 'M'
   value === 0 && (value = Math.floor(count / 1000)) && (symbol = 'K')
@@ -22,39 +25,38 @@ function getValueString(count) {
 }
 
 function MobilePost(props) {
-  let { post, user } = props
+  let { post, user, database } = props
 
-  const [loaded, setLoaded] = useState(false)
+  let [postUser, setPostUsers] = useState([])
 
-  const image = new Image();
-  image.src = '../../placeholders/1.jpg'
-  image.onload = () => {
-    setLoaded(true)
-  }
+  useEffect(() => {
+    let mounted = true
+    getDoc(doc(database, 'users', post.user)).then(doc => {
+      mounted && setPostUsers(doc.data())
+      return () => mounted = false
+    })
+  }, [])
 
   return (
     <div className="MobilePost">
       <div className="MobilePost__ProfileSection">
-        <img className="MobilePost__ProfileIcon" src={post.user.profileIcon} alt="" />
-        <p className="MobilePost__Username">{post.user.name}</p>
-        <p className="MobilePost__Time">{getTimeString(Math.floor((Date.now() - new Date(JSON.parse(post.data.time)))))}</p>
+        <img className="MobilePost__ProfileIcon" src={postUser.profileIcon} alt="" />
+        <p className="MobilePost__Username">{postUser.name}</p>
+        <p className="MobilePost__Time">{getTimeString(Math.floor((Date.now() - new Date(post.time))))}</p>
       </div>
 
       <div className="MobilePost__ImageSection">
-        {
-          (!loaded && <div className="MobilePost__Image__Loader" />)
-          || <img className="MobilePost__Image" src={post.content.images[0]} alt="" />
-        } {/* Add Slideshow In Future */}
+        <img className="MobilePost__Image" src={post.images[0]} alt="" /> {/* Add Slideshow In Future */}
         <div className="MobilePost__Overlay">
-          <div className="icon25">
-            <img className="MobilePost__Overlay__Icon" src={`../../placeholders/favorite${user.favorites.includes(post.data.id) ? "-filled" : ""}.svg`} alt="favorite" />
-            <p className="MobilePost__Overlay__Likes">{getValueString(post.response.favorites.length)}</p>
+          <div className="icon25"> {/* post.id does not exist at the moment, will need a way to get the document id */}
+            <img className="MobilePost__Overlay__Icon" src={`../../placeholders/favorite${user.favorites.includes(post.id) ? "-filled" : ""}.svg`} alt="favorite" />
+            <p className="MobilePost__Overlay__Likes">{getValueString(post.favorites.length)}</p>
           </div>
 
 
           <div className="icon25">
             <img className="MobilePost__Overlay__Icon" src="../../placeholders/comment.svg" alt="comment" />
-            <p className="MobilePost__Overlay__Comments">{getValueString(post.response.comments.length)}</p>
+            <p className="MobilePost__Overlay__Comments">{getValueString(post.comments.length)}</p>
           </div>
 
           <div className="icon25 MobilePost__Overlay__More">
@@ -70,7 +72,7 @@ function MobilePost(props) {
           {/* These will be <a></a> tags at some point */}
           
           {
-            post.data.tags.map((tag, idx) => {
+            post.tags.map((tag, idx) => {
               return <p key={idx}>#{tag}</p>
             })
           }
