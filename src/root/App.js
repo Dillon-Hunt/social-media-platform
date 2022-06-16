@@ -16,7 +16,7 @@ import NoPage from '../pages/NoPage'
 
 // Firebase
 import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, getDocs, getDoc, doc } from "firebase/firestore"
+import { getFirestore, collection, getDocs, getDoc, doc, query, orderBy, limit  } from "firebase/firestore"
 
 const firebaseConfig = {
   apiKey: "AIzaSyDu7SiKmJqUD21ja3_skiS7D_Z-OF0053c",
@@ -43,7 +43,7 @@ function App() {
 
   useEffect(() => {
     let mounted = true
-    mounted && getDocs(collection(database, 'posts')).then(async postData => {
+    mounted && getDocs(query(collection(database, 'posts'), orderBy("time", "desc"), limit(20))).then(async postData => {
 
       await await Promise.all(postData.docs.map(async document => {
           let docData = document.data()
