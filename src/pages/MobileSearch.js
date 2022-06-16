@@ -20,8 +20,8 @@ function MobileSearch(props) {
 
   if (searchInput.length > 0) {
     results = posts.filter((post) => {
-      let searchTerm = searchInput.toLowerCase().replaceAll('#', '') /* Need To Get User */
-      return post.content.text.toLowerCase().includes(searchTerm) /*|| post.user.name.toLowerCase().includes(searchTerm)*/ || post.tags.filter(tag => {return tag.toLowerCase().includes(searchTerm)}).length !== 0
+      let searchTerm = searchInput.toLowerCase().replaceAll('#', '') /* Search For Users As Well */
+      return post.data.content.text.toLowerCase().includes(searchTerm)|| post.data.tags.filter(tag => {return tag.toLowerCase().includes(searchTerm)}).length !== 0
     })
   }
 

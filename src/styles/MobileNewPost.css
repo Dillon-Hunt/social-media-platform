@@ -1,0 +1,40 @@
+.MobileNewPost__Images {
+    width: 100%;
+
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0 0 20px 0;
+
+    border: none;
+    box-sizing: border-box;
+}
+
+.MobileNewPost__Caption {
+    width: 100%;
+
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0 0 20px 0;
+
+    border: none;
+    box-sizing: border-box;
+}
+
+.MobileNewPost__Tags {
+    width: 100%;
+
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0 0 20px 0;
+
+    border: none;
+    box-sizing: border-box;
+}
+
+.MobileNewPost__PostButton {
+    width: 100%;
+
+    border-radius: 10px;
+    
+    border: none;
+}

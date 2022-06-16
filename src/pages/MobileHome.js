@@ -5,14 +5,16 @@ import MobilePostsView from '../components/MobilePostsView'
 import MobileNavigationBar from '../components/MobileNavigationBar'
 
 function MobileHome(props) {
-  let {posts, user, database} = props
+  let {posts, user} = props
 
   return (
     <div className="MobileHome">
 
       <MobileHeader />
       <MobileStoriesView />
-      <MobilePostsView posts={posts} user={user} database={database} />
+      {
+        (user && posts) ? <MobilePostsView posts={posts} user={user} /> : <p>Loading</p>
+      }
       <MobileNavigationBar />
 
     </div>
