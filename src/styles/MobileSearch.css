@@ -13,3 +13,7 @@
     background-color: transparent;
     box-sizing: border-box;
 }
+
+.MobileSearch__Input:focus {
+    outline: none;
+}

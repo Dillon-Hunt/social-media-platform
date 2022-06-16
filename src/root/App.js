@@ -44,7 +44,6 @@ function App() {
   useEffect(() => {
     let mounted = true
     mounted && getDocs(query(collection(database, 'posts'), orderBy("time", "desc"), limit(20))).then(async postData => {
-
       await await Promise.all(postData.docs.map(async document => {
           let docData = document.data()
           let user = await getDoc(doc(database, 'users', docData.user))

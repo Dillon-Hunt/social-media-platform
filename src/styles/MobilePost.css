@@ -58,6 +58,8 @@
 .MobilePost__Image {
     width: 100%;
 
+    border-radius: 10px;
+
     vertical-align: bottom
 }
 

@@ -28,7 +28,7 @@ function MobileSearch(props) {
 
   return (
     <div className="MobileSearch">
-      <input className="MobileSearch__Input" placeholder="Search..." onChange={handleSearchInput} value={searchInput} />
+      <input className="MobileSearch__Input" placeholder="Search..." onChange={handleSearchInput} value={searchInput} autoFocus />
       
       {/* Show Users Too */}
 
