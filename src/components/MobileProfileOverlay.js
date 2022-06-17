@@ -25,7 +25,7 @@ function MobileProfileOverlay(props) {
         return () => mounted = false
       })
     })
-  }, [])
+  }, [user, database])
   
 
   return (
