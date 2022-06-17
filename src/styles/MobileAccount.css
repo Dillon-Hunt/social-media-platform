@@ -1,7 +1,6 @@
 .MobileAccount {
     left: 50%;
     
-
     transform: translateX(-50%);
 
     position: absolute;
@@ -17,6 +16,8 @@
     top: -60px;
     left: 7.5px;
     border-radius: 50%;
+
+    background-color: var(--extra-light-charade);
 
     position: absolute;
 }
@@ -37,4 +38,22 @@
 
     font-size: var(--font-14);
     color: var(--white);
+}
+
+.MobileAccount__Placeholder__Name {
+    height: 16.5px;
+    width: 100px;
+
+    margin-top: 28px;
+
+    background-color: var(--extra-light-charade);
+}
+
+.MobileAccount__Placeholder__Username {
+    height: 16px;
+    width: 80px;
+
+    margin: 4px 0 0 10px;
+
+    background-color: var(--extra-light-charade);
 }

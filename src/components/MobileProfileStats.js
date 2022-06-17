@@ -6,15 +6,15 @@ function MobileProfileStats(props) {
     return (
         <div className="MobileProfileStats">
             <div className="MobileProfileStats__Stat">
-                <p className="MobileProfileStats__Stat__Count">{user.data.following.length}</p>
+                <p className="MobileProfileStats__Stat__Count">{user.length !== 0 ? user.data.following.length : "-"}</p>
                 <p className="MobileProfileStats__Stat__Name">Following</p>
             </div>
             <div className="MobileProfileStats__Stat">
-                <p className="MobileProfileStats__Stat__Count">{user.data.followers.length}</p>
+                <p className="MobileProfileStats__Stat__Count">{user.length !== 0 ? user.data.followers.length : "-"}</p>
                 <p className="MobileProfileStats__Stat__Name">Followers</p>
             </div>
             <div className="MobileProfileStats__Stat">
-                <p className="MobileProfileStats__Stat__Count">{posts}</p>
+                <p className="MobileProfileStats__Stat__Count">{posts || "-"}</p>
                 <p className="MobileProfileStats__Stat__Name">Posts</p>
             </div>
         </div>

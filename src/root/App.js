@@ -81,7 +81,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route index path='/' element={<MobileHome posts={posts} user={user} />} />
-            <Route index path='/search' element={<MobileSearch posts={posts} user={user} communities={communities} database={database} />} />
+            <Route index path='/search' element={<MobileSearch user={user} communities={communities} database={database} />} />
             <Route index path='/post' element={<MobileNewPost user={user} database={database} />} />
             <Route path='/profile' element={<MobileProfile user={user} database={database} />} />
             <Route path='/profile/:page' element={<MobileProfile user={user} database={database} />} />

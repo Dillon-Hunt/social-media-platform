@@ -14,7 +14,7 @@ function MobileProfileOverlay(props) {
   
   useEffect(() => {
     let mounted = true
-    mounted && getDocs(query(collection(database, 'posts'), where("user", "==", user.id), orderBy("time", "desc"))).then(async postData => {
+    mounted && user.length !== 0 && getDocs(query(collection(database, 'posts'), where("user", "==", user.id), orderBy("time", "desc"))).then(async postData => {
       await await Promise.all(postData.docs.map(async document => {
           let docData = document.data()
           let user = await getDoc(doc(database, 'users', docData.user))
@@ -26,17 +26,12 @@ function MobileProfileOverlay(props) {
       })
     })
   }, [user, database])
-  
 
   return (
     <div className="MobileProfileOverlay">
-      {
-        user && <>
-          <MobileAccount user={user} />
-          <MobileProfileStats user={user} posts={posts.length} />
-          <MobileAccountContent posts={posts} />
-        </>
-      }
+      <MobileAccount user={user} />
+      <MobileProfileStats user={user} posts={posts.length} />
+      <MobileAccountContent posts={posts} />
     </div>
   );
 }

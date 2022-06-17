@@ -1,44 +1,61 @@
+import '../styles/MobileSearch.css'
+
 import React, {useState} from "react";
+import { getDoc, doc } from "firebase/firestore"
+import algoliasearch from 'algoliasearch/lite';
 
 import MobileCommunityThumbnail from '../components/MobileCommunityThumbnail'
 import MobilePost from '../components/MobilePost'
 
 import MobileNavigationBar from '../components/MobileNavigationBar'
 
-import '../styles/MobileSearch.css'
+const searchClient = algoliasearch(
+  '58H0A6R0QR',
+  '7afd43ecd7e90f6223a7f620e04fd982',
+)
+
 
 function MobileSearch(props) {
-  let { posts, user, communities, database } = props
-  let results = posts
+  let { user, communities, database } = props
 
-  const [searchInput, setSearchInput] = useState("");
+  let [query, setQuery] = useState("")
+  let [results, setResults] = useState([])
 
-  const handleSearchInput = (e) => {
+  let index = searchClient.initIndex("post_search")
+
+  const updateResults = (e) => {
     e.preventDefault()
-    setSearchInput(e.target.value)
-  }
-
-  if (searchInput.length > 0) {
-    results = posts.filter((post) => {
-      let searchTerm = searchInput.toLowerCase().replaceAll('#', '') /* Search For Users As Well */
-      return post.data.text.toLowerCase().includes(searchTerm)|| post.data.tags.filter(tag => {return tag.toLowerCase().includes(searchTerm)}).length !== 0
+    setQuery(e.target.value)
+    index.search(query).then(async ({ hits }) => {
+      await Promise.all(hits.map(async hit => {
+        let user = await getDoc(doc(database, 'users', hit.user))
+        hit.user = user.data()
+        return { id: hit.objectID, data: hit }
+      })).then(posts => {
+        setResults(posts)
+      })
     })
   }
 
-
   return (
     <div className="MobileSearch">
-      <input className="MobileSearch__Input" placeholder="Search..." onChange={handleSearchInput} value={searchInput} autoFocus />
-      
-      {/* Show Users Too */}
 
+    {
+      user.length !== 0 && <>
+        <input className="MobileSearch__Input" placeholder="Search..." onChange={updateResults} value={query} autoFocus />
+      </>
+    }
+
+
+      {/* Show Users Too */}
+      
       {
-        (searchInput.length > 0 
+        (query.length > 0 
         
         && 
 
         results.map((result, idx) => {
-          return <MobilePost key={idx} post={result} user={user} database={database} />
+          return <MobilePost key={idx} post={result} user={user} />
         }))
 
         || 
