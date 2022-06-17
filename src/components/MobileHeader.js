@@ -9,7 +9,7 @@ function MobileHeader() {
         <h3 className="MobileHeader__Subtitle">Good Morning</h3>
 
         <div className="NotificationBell">
-            <img className="NotificationBell__Image" src={`../../placeholders/notifications${newNotifications ? '-active' : ''}.svg`} alt='' />
+            <img className="NotificationBell__Image" src={`../../assets/notifications${newNotifications ? '-active' : ''}.svg`} alt='' />
         </div>
     </div>
   );

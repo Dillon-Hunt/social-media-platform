@@ -36,7 +36,7 @@ const communities = []
 const userID = "d5WUVQmvi8nY0E9rKVDQ"
 
 function App() {
-  const imagesPreload = ['../../placeholders/home.svg', '../../placeholders/home-selected.svg', '../../placeholders/search.svg', '../../placeholders/search-selected.svg', '../../placeholders/group.svg', '../../placeholders/group-selected.svg', '../../placeholders/person.svg', '../../placeholders/person-selected.svg', ]
+  const imagesPreload = ['../../assets/home.svg', '../../assets/home-selected.svg', '../../assets/search.svg', '../../assets/search-selected.svg', '../../assets/group.svg', '../../assets/group-selected.svg', '../../assets/person.svg', '../../assets/person-selected.svg', ]
 
   let [posts, setPosts] = useState([])
   let [user, setSetUser] = useState([])
@@ -83,8 +83,8 @@ function App() {
             <Route index path='/' element={<MobileHome posts={posts} user={user} />} />
             <Route index path='/search' element={<MobileSearch posts={posts} user={user} communities={communities} database={database} />} />
             <Route index path='/post' element={<MobileNewPost user={user} database={database} />} />
-            <Route path='/profile' element={<MobileProfile />} />
-            <Route path='/profile/:page' element={<MobileProfile />} />
+            <Route path='/profile' element={<MobileProfile user={user} database={database} />} />
+            <Route path='/profile/:page' element={<MobileProfile user={user} database={database} />} />
 
             <Route path="*" element={<NoPage />} />
           </Routes>

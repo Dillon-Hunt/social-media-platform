@@ -1,10 +1,10 @@
 import '../styles/MobileProfileBanner.css'
 
 function MobileProfileBanner(props) {
-    let user = props.user
+    let { user } = props
     
     return (
-      <img className="MobileProfileBanner" src={user.profileBanner} alt='' />
+      <img className="MobileProfileBanner" src={user.data.profileBanner} alt='' />
     );
   }
   

@@ -1,10 +1,11 @@
-import { useParams, Link } from "react-router-dom";
-
 import '../styles/MobileAccountContent.css'
 
+import { useParams, Link } from "react-router-dom";
+
 function MobileAccountContent(props) {
-    //let user = props.user
+    const { posts } = props
     let { page } = useParams()
+
     page === undefined && (page = 'photos')
 
     return (
@@ -16,20 +17,11 @@ function MobileAccountContent(props) {
         </div>
         
         <div className="MobileAccountContent__Gallery">
-            <img className="MobileAccountContent__Gallery__Item" src={'../../placeholders/1.jpg'} alt='' />
-            <img className="MobileAccountContent__Gallery__Item" src={'../../placeholders/2.jpg'} alt='' />
-            <img className="MobileAccountContent__Gallery__Item" src={'../../placeholders/1.jpg'} alt='' />
-            <img className="MobileAccountContent__Gallery__Item" src={'../../placeholders/2.jpg'} alt='' />
-            <img className="MobileAccountContent__Gallery__Item" src={'../../placeholders/1.jpg'} alt='' />
-            <img className="MobileAccountContent__Gallery__Item" src={'../../placeholders/2.jpg'} alt='' />
-            <img className="MobileAccountContent__Gallery__Item" src={'../../placeholders/1.jpg'} alt='' />
-            <img className="MobileAccountContent__Gallery__Item" src={'../../placeholders/2.jpg'} alt='' />
-            <img className="MobileAccountContent__Gallery__Item" src={'../../placeholders/1.jpg'} alt='' />
-            <img className="MobileAccountContent__Gallery__Item" src={'../../placeholders/2.jpg'} alt='' />
-            <img className="MobileAccountContent__Gallery__Item" src={'../../placeholders/1.jpg'} alt='' />
-            <img className="MobileAccountContent__Gallery__Item" src={'../../placeholders/2.jpg'} alt='' />
-            <img className="MobileAccountContent__Gallery__Item" src={'../../placeholders/1.jpg'} alt='' />
-            <img className="MobileAccountContent__Gallery__Item" src={'../../placeholders/2.jpg'} alt='' />
+            {
+              posts.map((post, idx) => {
+                return <img key={idx} className="MobileAccountContent__Gallery__Item" src={post.data.images[0]} alt='' />
+              })
+            }
         </div>
       </div>
     );

@@ -36,18 +36,18 @@ function MobilePost(props) {
         <img className="MobilePost__Image" src={post.data.images[0]} alt="" /> {/* Add Slideshow In Future */}
         <div className="MobilePost__Overlay">
           <div className="icon25"> {/* post.id does not exist at the moment, will need a way to get the document id */}
-            <img className="MobilePost__Overlay__Icon" src={`../../placeholders/favorite${user.data.favorites.includes(post.id) ? "-filled" : ""}.svg`} alt="favorite" />
+            <img className="MobilePost__Overlay__Icon" src={`../../assets/favorite${user.data.favorites.includes(post.id) ? "-filled" : ""}.svg`} alt="favorite" />
             <p className="MobilePost__Overlay__Likes">{getValueString(post.data.favorites.length)}</p>
           </div>
 
 
           <div className="icon25">
-            <img className="MobilePost__Overlay__Icon" src="../../placeholders/comment.svg" alt="comment" />
+            <img className="MobilePost__Overlay__Icon" src="../../assets/comment.svg" alt="comment" />
             <p className="MobilePost__Overlay__Comments">{getValueString(post.data.comments.length)}</p>
           </div>
 
           <div className="icon25 MobilePost__Overlay__More">
-            <img className="MobilePost__Overlay__Icon" src="../../placeholders/more.svg" alt="more" />
+            <img className="MobilePost__Overlay__Icon" src="../../assets/more.svg" alt="more" />
           </div>
         </div>
       </div>

@@ -10,11 +10,11 @@ function MobileNavigationBar() {
 
   return (
     <div className="MobileNavigationBar">
-        <Link to={"../"}><img className="icon30" src={`../../placeholders/home${page === '/' ? '-selected' : ''}.svg`} alt="" /></Link>
-        <Link to={"../search"}><img className="icon30" src={`../../placeholders/search${page.includes('/search') ? '-selected' : ''}.svg`} alt="" /></Link>
-        <Link to={"../post"}><div className="MobileNavigationBar__NewPost"><img src={`../../placeholders/add.svg`} alt="" /></div></Link>
-        <Link to={"../friends"}><img className="icon30" src={`../../placeholders/group${page.includes('/friends') ? '-selected' : ''}.svg`} alt="" /></Link>
-        <Link to={"../profile"}><img className="icon30" src={`../../placeholders/person${page.includes('/profile') ? '-selected' : ''}.svg`} alt="" /></Link>
+        <Link to={"../"}><img className="icon30" src={`../../assets/home${page === '/' ? '-selected' : ''}.svg`} alt="" /></Link>
+        <Link to={"../search"}><img className="icon30" src={`../../assets/search${page.includes('/search') ? '-selected' : ''}.svg`} alt="" /></Link>
+        <Link to={"../post"}><div className="MobileNavigationBar__NewPost"><img src={`../../assets/add.svg`} alt="" /></div></Link>
+        <Link to={"../friends"}><img className="icon30" src={`../../assets/group${page.includes('/friends') ? '-selected' : ''}.svg`} alt="" /></Link>
+        <Link to={"../profile"}><img className="icon30" src={`../../assets/person${page.includes('/profile') ? '-selected' : ''}.svg`} alt="" /></Link>
     </div>
   );
 }
