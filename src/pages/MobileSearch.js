@@ -2,7 +2,10 @@ import '../styles/MobileSearch.css'
 
 import React, {useState} from "react";
 import { getDoc, doc } from "firebase/firestore"
+import { ref, getDownloadURL } from "firebase/storage"
 import algoliasearch from 'algoliasearch/lite';
+
+import { storage, database } from '../root/App';
 
 import MobileCommunityThumbnail from '../components/MobileCommunityThumbnail'
 import MobilePost from '../components/MobilePost'
@@ -16,7 +19,7 @@ const searchClient = algoliasearch(
 
 
 function MobileSearch(props) {
-  let { user, communities, database } = props
+  let { user, communities } = props
 
   let [query, setQuery] = useState("")
   let [results, setResults] = useState([])
@@ -29,6 +32,7 @@ function MobileSearch(props) {
     index.search(query).then(async ({ hits }) => {
       await Promise.all(hits.map(async hit => {
         let user = await getDoc(doc(database, 'users', hit.user))
+        hit.images = await Promise.all(hit.images.map(async image => {return await getDownloadURL(ref(storage, `posts/${image}`))}))
         hit.user = user.data()
         return { id: hit.objectID, data: hit }
       })).then(posts => {

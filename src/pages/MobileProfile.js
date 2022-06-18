@@ -4,12 +4,12 @@ import MobileNavigationBar from '../components/MobileNavigationBar'
 
 
 function MobileProfile(props) {
-  const { user, database } = props
+  const { user } = props
 
   return (
     <div className="MobileProfile">
       <MobileProfileBanner user={user} />
-      <MobileProfileOverlay user={user} database={database} />
+      <MobileProfileOverlay user={user} />
       <MobileNavigationBar />
     </div>
   );

@@ -16,7 +16,8 @@ import NoPage from '../pages/NoPage'
 
 // Firebase
 import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, getDocs, getDoc, doc, query, orderBy, limit  } from "firebase/firestore"
+import { getFirestore, collection, getDocs, getDoc, doc, query, orderBy, limit } from "firebase/firestore"
+import { getStorage, ref, getDownloadURL } from "firebase/storage"
 
 const firebaseConfig = {
   apiKey: "AIzaSyDu7SiKmJqUD21ja3_skiS7D_Z-OF0053c",
@@ -29,7 +30,8 @@ const firebaseConfig = {
 }
 
 const app = initializeApp({...firebaseConfig});
-const database = getFirestore(app);
+export const database = getFirestore(app);
+export const storage = getStorage(app)
 
 // Default Data
 const communities = []
@@ -47,7 +49,9 @@ function App() {
       await await Promise.all(postData.docs.map(async document => {
           let docData = document.data()
           let user = await getDoc(doc(database, 'users', docData.user))
+          let images = await Promise.all(docData.images.map(async image => {return await getDownloadURL(ref(storage, `posts/${image}`))}))
           docData.user = user.data()
+          docData.images = images
           return { id: document.id, data: docData }
       })).then(posts => {
         setPosts(posts)
@@ -81,10 +85,10 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route index path='/' element={<MobileHome posts={posts} user={user} />} />
-            <Route index path='/search' element={<MobileSearch user={user} communities={communities} database={database} />} />
-            <Route index path='/post' element={<MobileNewPost user={user} database={database} />} />
-            <Route path='/profile' element={<MobileProfile user={user} database={database} />} />
-            <Route path='/profile/:page' element={<MobileProfile user={user} database={database} />} />
+            <Route index path='/search' element={<MobileSearch user={user} communities={communities} />} />
+            <Route index path='/post' element={<MobileNewPost user={user} />} />
+            <Route path='/profile' element={<MobileProfile user={user} />} />
+            <Route path='/profile/:page' element={<MobileProfile user={user} />} />
 
             <Route path="*" element={<NoPage />} />
           </Routes>

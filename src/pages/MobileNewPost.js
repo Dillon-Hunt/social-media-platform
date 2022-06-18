@@ -5,15 +5,22 @@ import MobileNavigationBar from '../components/MobileNavigationBar'
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { addDoc, collection } from "firebase/firestore"
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { v4 } from "uuid"
+
+import { storage, database } from '../root/App'
+
 
 function MobileNewPost(props) {
-    let { user, database } = props
+    let { user } = props
 
     const navigate = useNavigate()
 
     const [caption, setCaption] = useState('')
     const [tags, setTags] = useState([])
     const [images, setImages] = useState([])
+    const [imagePreviews, setImagePreviews] = useState([])
+    const [imageUpload, setImageUpload] = useState(null)
 
 
     const createPost = () => {
@@ -30,10 +37,29 @@ function MobileNewPost(props) {
         addDoc(collection(database, "posts"), post).then(() => navigate("/"))
     }
 
+    const uploadImagePost = () => {
+        if (imageUpload == null) return
+        const uuid = v4()
+        const imageRef = ref(storage, `posts/${uuid}`)
+        uploadBytes(imageRef, imageUpload).then(() => {
+            setImages([...images, uuid])
+            getDownloadURL(imageRef).then(downloadURL => {
+                setImagePreviews([...imagePreviews, downloadURL])
+            })
+        })
+    }
+
     return (
         <div className="MobileNewPost">
+            <input type="file" onChange={(e) => {setImageUpload(e.target.files[0])}} /> {/* Limit to one image per upload */}
+            <button onClick={uploadImagePost}>Upload Image</button>
+            {
+                imagePreviews.map((image, idx) => {
+                    return <img key={idx} src={image} alt='' />
+                })
+            }
 
-            <input className="MobileNewPost__Images" placeholder="Type Image Url(s)." maxLength={500} name="Post Images" onChange={(e) => setImages(e.target.value.replaceAll(' ', '').split(","))} />
+            {/* <input className="MobileNewPost__Images" placeholder="Type Image Url(s)." maxLength={500} name="Post Images" onChange={(e) => setImages(e.target.value.replaceAll(' ', '').split(","))} /> */}
             <textarea className="MobileNewPost__Caption" placeholder="Start Typing Here." maxLength={500} name="Post Caption" onChange={(e) => setCaption(e.target.value)} />
             <input className="MobileNewPost__Tags" placeholder="Separate tags with a comma." maxLength={100} name="Post Tags" onChange={(e) => setTags(e.target.value.replaceAll(' ', '').split(","))} />
             <button onClick={createPost} className="MobileNewPost__postButton">Post</button>

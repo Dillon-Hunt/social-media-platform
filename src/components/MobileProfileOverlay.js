@@ -7,8 +7,10 @@ import MobileAccountContent from '../components/MobileAccountContent'
 import { collection, getDocs, getDoc, doc, query, orderBy, where } from "firebase/firestore"
 import React, { useState, useEffect } from "react"
 
+import { database } from '../root/App';
+
 function MobileProfileOverlay(props) {
-  const { user, database } = props
+  const { user } = props
 
   let [posts, setPosts] = useState([])
   
@@ -25,7 +27,7 @@ function MobileProfileOverlay(props) {
         return () => mounted = false
       })
     })
-  }, [user, database])
+  }, [user])
 
   return (
     <div className="MobileProfileOverlay">
