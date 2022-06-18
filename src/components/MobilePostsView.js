@@ -1,6 +1,10 @@
+import '../styles/MobilePostsView.css'
+
 import MobilePost from "./MobilePost";
 
-import '../styles/MobilePostsView.css'
+/* import AdSense from 'react-adsense'; In the future, potentially */
+import { useEffect } from 'react';
+
 
 function MobilePostsView(props) {
     let { posts, user } = props
