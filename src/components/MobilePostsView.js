@@ -3,7 +3,6 @@ import '../styles/MobilePostsView.css'
 import MobilePost from "./MobilePost";
 
 /* import AdSense from 'react-adsense'; In the future, potentially */
-import { useEffect } from 'react';
 
 
 function MobilePostsView(props) {
