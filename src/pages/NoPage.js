@@ -1,10 +1,15 @@
-import MobileNavigationBar from '../components/MobileNavigationBar'
-
 import '../styles/NoPage.css'
+
+import MobileNavigationBar from '../components/MobileNavigationBar'
+import { Helmet } from 'react-helmet'
 
 function NoPage() {
     return (
       <div className="NoPage">
+        <Helmet>
+          <title>404 | Page Not Found</title>
+          <meta name="description" content="Well that's unfortunate." />
+        </Helmet>
   
         <div className="NoPage__Message">
           <h1 className="NoPage__Heading">404</h1>

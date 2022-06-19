@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { getDoc, doc } from "firebase/firestore"
 import { ref, getDownloadURL } from "firebase/storage"
 import algoliasearch from 'algoliasearch/lite'
+import { Helmet } from 'react-helmet'
 
 import { storage, database, auth } from '../root/App'
 
@@ -69,7 +70,10 @@ function MobileSearch(props) {
 
   return (
     <div className="MobileSearch">
-
+      <Helmet>
+        <title>Search | Social Media App</title>
+        <meta name="description" content="Find a user, post or community here." />
+      </Helmet>
     {
       user.length !== 0 && <>
         <input className="MobileSearch__Input" placeholder="Search..." onChange={updateResults} value={query} autoFocus />

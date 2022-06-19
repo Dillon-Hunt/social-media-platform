@@ -1,5 +1,7 @@
 import MobileNavigationBar from '../components/MobileNavigationBar'
 
+import { Helmet } from 'react-helmet'
+
 function MobileCommunities() {
 
   const [signedIn, loading] = useAuthState(auth)
@@ -16,7 +18,9 @@ function MobileCommunities() {
 
   return (
     <div className="MobileCommunities">
-
+        <Helmet>
+          <title>Community Name Here | Social Media App</title> {/* Add actual community name */}
+        </Helmet>
         <MobileNavigationBar />
 
     </div>

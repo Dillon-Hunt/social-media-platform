@@ -22,6 +22,7 @@ import { getFirestore } from "firebase/firestore"
 import { getStorage } from "firebase/storage"
 import { getAuth } from "firebase/auth"
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDu7SiKmJqUD21ja3_skiS7D_Z-OF0053c",
@@ -37,6 +38,7 @@ export const app = initializeApp({...firebaseConfig});
 export const database = getFirestore(app);
 export const storage = getStorage(app)
 export const auth = getAuth(app)
+export const analytics = getAnalytics(app)
 
 // Default Data
 const communities = []

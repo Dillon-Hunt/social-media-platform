@@ -7,6 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
 import { getDoc, doc, where, getDocs, query, collection } from 'firebase/firestore'
 import { ref, getDownloadURL } from 'firebase/storage'
+import { Helmet } from 'react-helmet'
 
 import { auth, database, storage } from '../root/App'
 
@@ -50,6 +51,9 @@ function MobileProfile() {
 
   return (
     <div className="MobileProfile">
+      <Helmet>
+        <title>{user.data.username} | Social Media App</title>
+      </Helmet>
       {
         user && <>
         <MobileProfileBanner user={user} />

@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { setDoc, getDoc, doc } from "firebase/firestore"
+import { logEvent} from "firebase/analytics"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { v4 } from "uuid"
+import { Helmet } from 'react-helmet'
 
-import { storage, database, auth } from '../root/App'
+import { storage, database, auth, analytics } from '../root/App'
 
 
 function MobileAccountSetup() {
@@ -60,7 +62,10 @@ function MobileAccountSetup() {
         }
         
         if (username && name) {
-            setDoc(doc(database, "users", signedIn.uid), user).then(() => navigate("/home"))
+            setDoc(doc(database, "users", signedIn.uid), user).then(() => {
+                logEvent(analytics, 'create_account')
+                navigate("/home")
+            })
         } else {
             console.log("Please Enter A Valid Name & Username") // Display this somewhere
         } 
@@ -92,6 +97,9 @@ function MobileAccountSetup() {
 
     return (
         <div className="MobileAccountSetup">
+            <Helmet>
+            <title>Setup Your Account | Social Media App</title>
+            </Helmet>
             {
                 showAccountSetup && 
                 <>

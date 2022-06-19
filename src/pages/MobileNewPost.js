@@ -7,9 +7,11 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
 import { addDoc, collection, doc, getDoc } from "firebase/firestore"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { logEvent } from "firebase/analytics"
 import { v4 } from "uuid"
+import { Helmet } from 'react-helmet'
 
-import { storage, database, auth } from '../root/App'
+import { storage, database, auth, analytics } from '../root/App'
 
 
 function MobileNewPost() {
@@ -18,9 +20,10 @@ function MobileNewPost() {
     const [tags, setTags] = useState([])
     const [images, setImages] = useState([])
     const [imagePreviews, setImagePreviews] = useState([])
-    const [imageUpload, setImageUpload] = useState(null)
     const [signedIn, loading] = useAuthState(auth)
     let [user, setSetUser] = useState([])
+
+    const [loadingImages, setLoadingImages] = useState(0)
   
     const navigate = useNavigate()
   
@@ -55,35 +58,53 @@ function MobileNewPost() {
             comments: [],
         }
         
-        addDoc(collection(database, "posts"), post).then(() => navigate("/"))
+        addDoc(collection(database, "posts"), post).then(() => {
+            logEvent(analytics, 'create_post', {
+                tags: tags,
+            })
+            navigate("/")
+        })
     }
 
-    const uploadImagePost = () => {
+    const uploadImagePost = (imageUpload) => {
         if (imageUpload == null) return
+        let newLoadingImages = loadingImages + 1
+        setLoadingImages(newLoadingImages)
         const uuid = v4()
         const imageRef = ref(storage, `posts/${uuid}`)
         uploadBytes(imageRef, imageUpload).then(() => {
             setImages([...images, uuid])
             getDownloadURL(imageRef).then(downloadURL => {
                 setImagePreviews([...imagePreviews, downloadURL])
+                setLoadingImages(newLoadingImages - 1)
             })
         })
     }
 
     return (
         <div className="MobileNewPost">
-            <input type="file" onChange={(e) => {setImageUpload(e.target.files[0])}} /> {/* Limit to one image per upload */}
-            <button onClick={uploadImagePost}>Upload Image</button>
-            {
+            <Helmet>
+            <title>Create Post | Social Media App</title>
+            <meta name="description" content="Create a new post on you account." />
+            </Helmet>
+            <div className='MobileNewPost__Images'>
+                <div className='MobileNewPost__Upload'>
+                    <img className='MobileNewPost__Upload__Icon' src={`../../assets/add-green.svg`} alt="" />
+                    <input className='MobileNewPost__Upload__Button' type="file" onChange={(e) => {uploadImagePost(e.target.files[0])}} /> {/* Limit image size */}
+                </div>
+                {
                 imagePreviews.map((image, idx) => {
-                    return <img key={idx} src={image} alt='' />
+                    return <img className='MobileNewPost__Image' key={idx} src={image} alt='' />
                 })
             }
 
-            {/* <input className="MobileNewPost__Images" placeholder="Type Image Url(s)." maxLength={500} name="Post Images" onChange={(e) => setImages(e.target.value.replaceAll(' ', '').split(","))} /> */}
+            </div>
+
             <textarea className="MobileNewPost__Caption" placeholder="Start Typing Here." maxLength={500} name="Post Caption" onChange={(e) => setCaption(e.target.value)} />
+           
             <input className="MobileNewPost__Tags" placeholder="Separate tags with a comma." maxLength={100} name="Post Tags" onChange={(e) => setTags(e.target.value.replaceAll(' ', '').split(","))} />
-            <button onClick={createPost} className="MobileNewPost__postButton">Post</button>
+           
+            <button onClick={createPost} className="MobileNewPost__PostButton" disabled={!(loadingImages <= 0)}>{loadingImages <= 0 ? 'Post' : 'Loading Images'}</button>
 
             <MobileNavigationBar />
         </div>

@@ -1,23 +1,13 @@
 import '../styles/MobileSignIn.css'
 
 import React, { useEffect } from 'react'
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth"
-import { initializeApp } from 'firebase/app'
+import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth"
+import { logEvent } from "firebase/analytics"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
+import { Helmet } from 'react-helmet'
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDu7SiKmJqUD21ja3_skiS7D_Z-OF0053c",
-    authDomain: "social-media-app-fcc1f.firebaseapp.com",
-    projectId: "social-media-app-fcc1f",
-    storageBucket: "social-media-app-fcc1f.appspot.com",
-    messagingSenderId: "1063507743990",
-    appId: "1:1063507743990:web:8b6b95ab0bd492ef80c8d7",
-    measurementId: "G-YRJEKF6LLK"
-}
-
-const app = initializeApp({...firebaseConfig})
-const auth = getAuth(app);
+import { analytics, auth } from '../root/App'
 
 const provider = new GoogleAuthProvider();
 
@@ -26,7 +16,7 @@ function SignInButton() {
     const signInWithGoogle = () => {
         signInWithPopup(auth, provider)
           .then(() => {
-
+            logEvent(analytics, 'sign_in')
           }).catch((error) => {
             const errorCode = error.code
             const errorMessage = error.message
@@ -75,6 +65,10 @@ function MobileSignIn() {
 
     return (
         <div>
+            <Helmet>
+                <title>Sign In | Social Media App</title>
+                <meta name="description" content="Sign in or sign up here" />
+            </Helmet>
             <h1 className="MobileSignIn__Text">Social Media App</h1>
             <SignInButton />
             {/* <SignOutButton /> */}

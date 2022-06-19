@@ -9,6 +9,7 @@ import { collection, getDocs, getDoc, doc, query, orderBy, limit } from "firebas
 import { ref, getDownloadURL } from "firebase/storage"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
+import { Helmet } from 'react-helmet'
 
 import { auth, database, storage } from '../root/App'
 
@@ -53,7 +54,10 @@ function MobileHome() {
 
   return (
     <div className="MobileHome">
-
+      <Helmet>
+        <title>Home | Social Media App</title>
+        <meta name="description" content="See all you friends posts and stories." />
+      </Helmet>
       <MobileHeader user={user} />
       <MobileStoriesView />
       {
