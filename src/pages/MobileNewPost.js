@@ -2,25 +2,46 @@ import '../styles/MobileNewPost.css'
 
 import MobileNavigationBar from '../components/MobileNavigationBar'
 
-import { useState } from 'react'
-import { useNavigate } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore"
+import React, { useState, useEffect } from "react"
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { useNavigate } from "react-router-dom"
+import { addDoc, collection, doc, getDoc } from "firebase/firestore"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { v4 } from "uuid"
 
-import { storage, database } from '../root/App'
+import { storage, database, auth } from '../root/App'
 
 
-function MobileNewPost(props) {
-    let { user } = props
-
-    const navigate = useNavigate()
+function MobileNewPost() {
 
     const [caption, setCaption] = useState('')
     const [tags, setTags] = useState([])
     const [images, setImages] = useState([])
     const [imagePreviews, setImagePreviews] = useState([])
     const [imageUpload, setImageUpload] = useState(null)
+    const [signedIn, loading] = useAuthState(auth)
+    let [user, setSetUser] = useState([])
+  
+    const navigate = useNavigate()
+  
+    useEffect(() => {
+      if (!loading && signedIn) {
+        getDoc(doc(database, 'users', signedIn.uid)).then(document => {
+         setSetUser({ id: document.id, data: document.data() })
+         if (!document.exists()) {
+          navigate('/setup')
+         }
+        })
+      }
+    }, [signedIn, loading, navigate])
+
+    useEffect(() => {
+        if (!loading) {
+            if (!signedIn) {
+                navigate('/')
+            }
+        }
+    }, [signedIn, loading, navigate])
 
 
     const createPost = () => {

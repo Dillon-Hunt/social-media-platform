@@ -1,8 +1,12 @@
 import '../styles/MobileHeader.css'
 
+import { SignOutButton } from '../pages/MobileSignIn'
+
 let newNotifications = false
 
-function MobileHeader() {
+function MobileHeader(props) {
+  const { user } = props
+
   var hours = new Date().getHours();
 
   let message = ""
@@ -18,8 +22,8 @@ function MobileHeader() {
 
   return (
     <div className="MobileHeader">
-        <h2 className="MobileHeader__Title">Hi, Dillon</h2>
-        <h3 className="MobileHeader__Subtitle">{message}</h3>
+        <h2 className="MobileHeader__Title">Hi{user.data !== undefined ? ", " +user.data.name : ""}</h2>
+        <h3 className="MobileHeader__Subtitle">{message} <SignOutButton /></h3>
 
         <div className="NotificationBell">
             <img className="NotificationBell__Image" src={`../../assets/notifications${newNotifications ? '-active' : ''}.svg`} alt='' />

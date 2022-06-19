@@ -18,10 +18,11 @@ function MobileAccountContent(props) {
         
         <div className="MobileAccountContent__Gallery">
             {
+              posts !== null ?
               posts.length !== 0 ?
               posts.map((post, idx) => {
                 return <img key={idx} className="MobileAccountContent__Gallery__Item" src={post.data.images[0]} alt='' />
-              }) : [...Array(9)].map((e, idx) =>  <div key={idx} className="MobileAccountContent__Gallery__Item" />)
+              }) : <div className="MobileAccountContent__Gallery__Item"><p className='MobileAccountContent__Gallery__Item__Text'>No Posts</p></div> : <div className="MobileAccountContent__Gallery__Item" />
             }
         </div>
       </div>

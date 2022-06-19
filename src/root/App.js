@@ -1,9 +1,11 @@
 import '../styles/App.css';
 
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 
 // Mobile
+import MobileSignIn from '../pages/MobileSignIn';
+import MobileAccountSetup from '../pages/MobileAccountSetup';
 import MobileHome from '../pages/MobileHome'
 import MobileSearch from '../pages/MobileSearch'
 import MobileNewPost from '../pages/MobileNewPost'
@@ -16,8 +18,10 @@ import NoPage from '../pages/NoPage'
 
 // Firebase
 import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, getDocs, getDoc, doc, query, orderBy, limit } from "firebase/firestore"
-import { getStorage, ref, getDownloadURL } from "firebase/storage"
+import { getFirestore } from "firebase/firestore"
+import { getStorage } from "firebase/storage"
+import { getAuth } from "firebase/auth"
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDu7SiKmJqUD21ja3_skiS7D_Z-OF0053c",
@@ -29,46 +33,16 @@ const firebaseConfig = {
   measurementId: "G-YRJEKF6LLK"
 }
 
-const app = initializeApp({...firebaseConfig});
+export const app = initializeApp({...firebaseConfig});
 export const database = getFirestore(app);
 export const storage = getStorage(app)
+export const auth = getAuth(app)
 
 // Default Data
 const communities = []
-const userID = "d5WUVQmvi8nY0E9rKVDQ"
 
 function App() {
   const imagesPreload = ['../../assets/home.svg', '../../assets/home-selected.svg', '../../assets/search.svg', '../../assets/search-selected.svg', '../../assets/group.svg', '../../assets/group-selected.svg', '../../assets/person.svg', '../../assets/person-selected.svg', ]
-
-  let [posts, setPosts] = useState([])
-  let [user, setSetUser] = useState([])
-
-  useEffect(() => {
-    let mounted = true
-    mounted && getDocs(query(collection(database, 'posts'), orderBy("time", "desc"), limit(20))).then(async postData => {
-      await await Promise.all(postData.docs.map(async document => {
-          let docData = document.data()
-          let user = await getDoc(doc(database, 'users', docData.user))
-          let images = await Promise.all(docData.images.map(async image => {return await getDownloadURL(ref(storage, `posts/${image}`))}))
-          docData.user = user.data()
-          docData.images = images
-          return { id: document.id, data: docData }
-      })).then(posts => {
-        setPosts(posts)
-        return () => mounted = false
-      })
-    })
-  }, [])
-
-  // Current User
-  useEffect(() => {
-    let mounted = true
-    getDoc(doc(database, 'users', userID)).then(document => {
-      mounted && setSetUser({ id: document.id, data: document.data() })
-      return () => mounted = false
-    })
-  }, [])
-
 
   useEffect(() => {
     imagesPreload.forEach((image) => {
@@ -78,26 +52,39 @@ function App() {
     });
   })
 
+  const [loggedIn, loading] = useAuthState(auth)
+
+  useEffect(() => {
+    if (!loading && loggedIn) {
+      console.log(`Hello ${loggedIn.displayName}!`)
+    }
+  }, [loggedIn, loading])
+
   return (
     <div className="App">
       {
-        (window.innerWidth <= 1000 && /* Not Responsive */
+        /* Not Responsive */
+        loading ?
+        <p className='loading'>
+          Loading...
+        </p>
+
+        :
+
         <BrowserRouter>
           <Routes>
-            <Route index path='/' element={<MobileHome posts={posts} user={user} />} />
-            <Route index path='/search' element={<MobileSearch user={user} communities={communities} />} />
-            <Route index path='/post' element={<MobileNewPost user={user} />} />
-            <Route path='/profile' element={<MobileProfile user={user} />} />
-            <Route path='/profile/:page' element={<MobileProfile user={user} />} />
+            <Route index path='/' element={<MobileSignIn />} />
+            <Route path='/setup' element={<MobileAccountSetup />} />
+            <Route path='/home' element={<MobileHome />} />
+            <Route path='/search' element={<MobileSearch communities={communities} />} />
+            <Route path='/post' element={<MobileNewPost />} />
+            <Route path='/profile' element={<MobileProfile />} />
+            <Route path='/profile/:page' element={<MobileProfile />} />
 
             <Route path="*" element={<NoPage />} />
           </Routes>
 
-        </BrowserRouter>)
-
-        ||
-
-        <p style={{color: '#fff'}}>Desktop View Is Not Yet Supported</p>
+        </BrowserRouter>
       }
     </div>
   );

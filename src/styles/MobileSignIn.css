@@ -1,0 +1,36 @@
+.MobileSignIn__Text {
+    margin-top: calc(50vh - 2em);
+
+    text-align: center;
+
+    color: var(--white);
+}
+
+.MobileSignIn__Button {
+    left: 50%;
+    border-radius: 4px;
+    padding: 10px;
+
+    transform: translateX(-50%);
+
+    flex-direction: row;
+    border: none;
+    display: flex;
+    position: absolute;
+}
+
+.MobileSignIn__Button__Text {
+    margin: 5px 5px 5px 10px;
+    font-weight: 200;
+}
+
+.SignOutButton {
+    font-weight: 600;
+    padding: 0;
+
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    color: white;
+    font-family: 'Rubik';
+}

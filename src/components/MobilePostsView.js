@@ -7,7 +7,7 @@ import MobilePost from "./MobilePost";
 
 function MobilePostsView(props) {
     let { posts, user } = props
-
+    
     return (
       <div className="MobilePostsView">
 

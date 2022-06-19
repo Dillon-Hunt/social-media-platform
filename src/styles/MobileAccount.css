@@ -1,11 +1,10 @@
 .MobileAccount {
-    left: 50%;
-    
-    transform: translateX(-50%);
+    width: calc(100% - 40px);
 
     position: absolute;
     text-align: center;
     display: flex;
+    align-items: center;
     flex-direction: column;
 }
 
@@ -14,12 +13,12 @@
     height: 80px;
 
     top: -60px;
-    left: 7.5px;
     border-radius: 50%;
 
     background-color: var(--extra-light-charade);
 
     position: absolute;
+    object-fit: cover;
 }
 
 .MobileAccount__Name {

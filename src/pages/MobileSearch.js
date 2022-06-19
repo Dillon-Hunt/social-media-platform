@@ -1,11 +1,13 @@
 import '../styles/MobileSearch.css'
 
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react"
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { useNavigate } from "react-router-dom"
 import { getDoc, doc } from "firebase/firestore"
 import { ref, getDownloadURL } from "firebase/storage"
-import algoliasearch from 'algoliasearch/lite';
+import algoliasearch from 'algoliasearch/lite'
 
-import { storage, database } from '../root/App';
+import { storage, database, auth } from '../root/App'
 
 import MobileCommunityThumbnail from '../components/MobileCommunityThumbnail'
 import MobilePost from '../components/MobilePost'
@@ -17,12 +19,36 @@ const searchClient = algoliasearch(
   '7afd43ecd7e90f6223a7f620e04fd982',
 )
 
-
 function MobileSearch(props) {
-  let { user, communities } = props
+  let { communities } = props
 
   let [query, setQuery] = useState("")
-  let [results, setResults] = useState([])
+  let [results, setResults] = useState([])  
+  
+  const [signedIn, loading] = useAuthState(auth)
+  let [user, setSetUser] = useState([])
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!loading && signedIn) {
+      getDoc(doc(database, 'users', signedIn.uid)).then(document => {
+       setSetUser({ id: document.id, data: document.data() })
+       if (!document.exists()) {
+        navigate('/setup')
+       }
+      })
+    }
+  }, [signedIn, loading, navigate])
+
+  useEffect(() => {
+    if (!loading) {
+      if (!signedIn) {
+        navigate('/')
+      }
+    }
+  }, [signedIn, loading, navigate])
+
 
   let index = searchClient.initIndex("post_search")
 

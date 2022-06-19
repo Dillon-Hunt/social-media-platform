@@ -18,6 +18,22 @@
     background-color: var(--extra-light-charade);
 
     object-fit: cover;
+    position: relative;
+}
+
+.MobileAccountContent__Gallery__Item__Text {
+    width: 100%;
+
+    top: 50%;
+    margin: 0;
+    font-weight: 200;
+
+    transform: translateY(-50%);
+    color: var(--white);
+
+    position: absolute;
+    text-align: center;
+
 }
 
 .MobileAccountContent__Navigation {

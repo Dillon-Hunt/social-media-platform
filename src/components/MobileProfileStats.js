@@ -6,16 +6,16 @@ function MobileProfileStats(props) {
     return (
         <div className="MobileProfileStats">
             <div className="MobileProfileStats__Stat">
-                <p className="MobileProfileStats__Stat__Count">{user.length !== 0 ? user.data.following.length : "-"}</p>
-                <p className="MobileProfileStats__Stat__Name">Following</p>
+                <p className="MobileProfileStats__Stat__Count">{user !== null && posts !== null ? user.data.following.length : "-"}</p>
+                <p className="MobileProfileStats__Stat__Name">{user !== null && posts !== null ? "Following" : "-"}</p>
             </div>
             <div className="MobileProfileStats__Stat">
-                <p className="MobileProfileStats__Stat__Count">{user.length !== 0 ? user.data.followers.length : "-"}</p>
-                <p className="MobileProfileStats__Stat__Name">Followers</p>
+                <p className="MobileProfileStats__Stat__Count">{user !== null && posts !== null ? user.data.followers.length : "-"}</p>
+                <p className="MobileProfileStats__Stat__Name">{user !== null && posts !== null ? user.data.followers.length === 1 ? "Follower" : "Followers" : "-"}</p>
             </div>
             <div className="MobileProfileStats__Stat">
-                <p className="MobileProfileStats__Stat__Count">{posts || "-"}</p>
-                <p className="MobileProfileStats__Stat__Name">Posts</p>
+                <p className="MobileProfileStats__Stat__Count">{user !== null && posts !== null ? posts.length : "-"}</p>
+                <p className="MobileProfileStats__Stat__Name">{user !== null && posts !== null ? posts.length === 1 ? "Post" : "Posts" : "-"}</p>
             </div>
         </div>
     );
