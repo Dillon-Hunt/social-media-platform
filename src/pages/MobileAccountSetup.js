@@ -48,9 +48,9 @@ function MobileAccountSetup() {
 
     const createUser = () => {
         let user = {
-            profileIcon: profileIcon || 'DefaultProfileIcon',
-            profileBanner: profileBanner || 'DefaultProfileBanner',
-            name: name || 'DefaultProfileBanner',
+            profileIcon: profileIcon || 'DefaultProfileIcon.png',
+            profileBanner: profileBanner || 'DefaultProfileBanner.png',
+            name: name,
             username: username,
             bio: "",
             favorites: [],
