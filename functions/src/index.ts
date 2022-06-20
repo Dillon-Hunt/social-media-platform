@@ -29,3 +29,25 @@ exports.unindexPost = functions.firestore
 
       return index.deleteObject(objectID);
     });
+
+const userIndex = client.initIndex("user_search");
+
+exports.indexUser = functions.firestore
+    .document("users/{userId}")
+    .onCreate((snap, context) => {
+      const data = snap.data(); // Potentially Hide Some Data
+      const objectID = snap.id;
+
+      return userIndex.saveObject({
+        objectID,
+        ...data,
+      });
+    });
+
+exports.unindexUser = functions.firestore
+    .document("users/{userId}")
+    .onDelete((snap, context) => {
+      const objectID = snap.id;
+
+      return userIndex.deleteObject(objectID);
+    });

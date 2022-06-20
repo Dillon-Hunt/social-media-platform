@@ -1,10 +1,5 @@
 import '../styles/MobilePost.css'
 
-import { useState } from 'react'
-import { ref, getDownloadURL } from 'firebase/storage'
-
-import { storage } from '../root/App'
-
 // Helper Functions
 function getTimeString(milliseconds) {
   let time = Math.floor(milliseconds / 31536000000) 
@@ -29,19 +24,11 @@ function getValueString(count) {
 function MobilePost(props) {
   let { post, user } = props
 
-  const [profileIcon, setProfileIcon] = useState(null)
-
-  const profileIconRef = ref(storage, `users/${post.data.user.profileIcon}`)
-
-  getDownloadURL(profileIconRef).then(downloadURL => {
-    setProfileIcon(downloadURL)
-  })
-
   return (
     <div className="MobilePost">
       <div className="MobilePost__ProfileSection">
         <div className='MobilePost__ImageContainer'>
-          <img className="MobilePost__ProfileIcon" src={profileIcon} alt='' />
+          <img className="MobilePost__ProfileIcon" src={post.data.user.profileIcon} alt='' />
         </div>
         <p className="MobilePost__Username">{post.data.user.name}</p>
         <p className="MobilePost__Time">{getTimeString(Math.floor((Date.now() - new Date(post.data.time))))}</p>

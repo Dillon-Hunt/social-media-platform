@@ -6,12 +6,12 @@ function MobileProfileStats(props) {
     return (
         <div className="MobileProfileStats">
             <div className="MobileProfileStats__Stat">
-                <p className="MobileProfileStats__Stat__Count">{user !== null && posts !== null ? user.data.following.length : "-"}</p>
+                <p className="MobileProfileStats__Stat__Count">{user !== null && posts !== null ? user.data.following : "-"}</p>
                 <p className="MobileProfileStats__Stat__Name">{user !== null && posts !== null ? "Following" : "-"}</p>
             </div>
             <div className="MobileProfileStats__Stat">
-                <p className="MobileProfileStats__Stat__Count">{user !== null && posts !== null ? user.data.followers.length : "-"}</p>
-                <p className="MobileProfileStats__Stat__Name">{user !== null && posts !== null ? user.data.followers.length === 1 ? "Follower" : "Followers" : "-"}</p>
+                <p className="MobileProfileStats__Stat__Count">{user !== null && posts !== null ? user.data.followers : "-"}</p>
+                <p className="MobileProfileStats__Stat__Name">{user !== null && posts !== null ? user.data.followers === 1 ? "Follower" : "Followers" : "-"}</p>
             </div>
             <div className="MobileProfileStats__Stat">
                 <p className="MobileProfileStats__Stat__Count">{user !== null && posts !== null ? posts.length : "-"}</p>

@@ -19,7 +19,6 @@ function MobileNewPost() {
     const [caption, setCaption] = useState('')
     const [tags, setTags] = useState([])
     const [images, setImages] = useState([])
-    const [imagePreviews, setImagePreviews] = useState([])
     const [signedIn, loading] = useAuthState(auth)
     let [user, setSetUser] = useState([])
 
@@ -73,9 +72,8 @@ function MobileNewPost() {
         const uuid = v4()
         const imageRef = ref(storage, `posts/${uuid}`)
         uploadBytes(imageRef, imageUpload).then(() => {
-            setImages([...images, uuid])
             getDownloadURL(imageRef).then(downloadURL => {
-                setImagePreviews([...imagePreviews, downloadURL])
+                setImages([...images, downloadURL])
                 setLoadingImages(newLoadingImages - 1)
             })
         })
@@ -93,7 +91,7 @@ function MobileNewPost() {
                     <input className='MobileNewPost__Upload__Button' type="file" onChange={(e) => {uploadImagePost(e.target.files[0])}} /> {/* Limit image size */}
                 </div>
                 {
-                imagePreviews.map((image, idx) => {
+                images.map((image, idx) => {
                     return <img className='MobileNewPost__Image' key={idx} src={image} alt='' />
                 })
             }

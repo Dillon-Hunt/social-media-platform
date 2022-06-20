@@ -5,13 +5,12 @@ import MobilePostsView from '../components/MobilePostsView'
 import MobileNavigationBar from '../components/MobileNavigationBar'
 
 import React, { useState, useEffect } from "react"
-import { collection, getDocs, getDoc, doc, query, orderBy, limit } from "firebase/firestore"
-import { ref, getDownloadURL } from "firebase/storage"
+import { collection, getDocs, getDoc, doc, query, orderBy, limit, where } from "firebase/firestore"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
 import { Helmet } from 'react-helmet-async'
 
-import { auth, database, storage } from '../root/App'
+import { auth, database } from '../root/App'
 
 function MobileHome() {
   let [posts, setPosts] = useState(null)
@@ -34,17 +33,22 @@ function MobileHome() {
   useEffect(() => {
       if (!loading) {
         if (signedIn) {
-          getDocs(query(collection(database, 'posts'), orderBy("time", "desc"), limit(20))).then(async postData => {
-            await await Promise.all(postData.docs.map(async document => {
-              let docData = document.data()
-              let user = await getDoc(doc(database, 'users', docData.user))
-              let images = await Promise.all(docData.images.map(async image => {return await getDownloadURL(ref(storage, `posts/${image}`))}))
-              docData.user = user.data()
-              docData.images = images
-              return { id: document.id, data: docData }
-            })).then(posts => {
-              setPosts(posts)
-            })
+          getDocs(query(collection(database, 'followers'), where('users', 'array-contains', signedIn.uid))).then(async followers => {
+            let users = await Promise.all(followers.docs.map(doc => doc.id))
+            if (users.length === 0) {
+              setPosts("No Posts")
+            } else {
+              getDocs(query(collection(database, 'posts'), orderBy("time", "desc"), where('user', 'in', users), limit(20))).then(async postData => {
+                await Promise.all(postData.docs.map(async document => {
+                  let docData = document.data()
+                  let user = await getDoc(doc(database, 'users', docData.user))
+                  docData.user = user.data()
+                  return { id: document.id, data: docData }
+                })).then(posts => {
+                  setPosts(posts)
+                })
+              })
+            }
           })
         } else {
             navigate('/')
@@ -61,7 +65,7 @@ function MobileHome() {
       <MobileHeader user={user} />
       <MobileStoriesView />
       {
-        (user && posts) ? <MobilePostsView posts={posts} user={user} /> : <p>Add Skeleton Posts Here</p>
+        (user && posts) ? posts === "No Posts" ? <p>Looks Like You Aren't Following Anybody Yet</p> : posts.length === 0 ? <p>No Posts Yet</p> : <MobilePostsView posts={posts} user={user} /> : <p>Add Skeleton Posts Here</p>
       }
       <MobileNavigationBar />
 

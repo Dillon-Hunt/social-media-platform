@@ -1,10 +1,10 @@
 .MobilePost {
     width: calc(100%);
 
-    padding-top: 20px;
-    margin: 0 0 20px 0;
+    padding-bottom: 20px;
+    margin: 20px 0 0 0;
 
-    border-top: 2px solid var(--light-charade);
+    border-bottom: 2px solid var(--light-charade);
 }
 
 .MobilePost__ProfileSection {

@@ -6,10 +6,9 @@ import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
 import { getDoc, doc, where, getDocs, query, collection } from 'firebase/firestore'
-import { ref, getDownloadURL } from 'firebase/storage'
 import { Helmet } from 'react-helmet-async'
 
-import { auth, database, storage } from '../root/App'
+import { auth, database } from '../root/App'
 
 
 function MobileProfile() {
@@ -22,17 +21,17 @@ function MobileProfile() {
 
   useEffect(() => {
     if (!loading && signedIn) {
-      getDoc(doc(database, 'users', signedIn.uid)).then(document => {
-       setSetUser({ id: document.id, data: document.data() })
-       if (!document.exists()) {
-        navigate('/setup')
-       }
+      getDoc(doc(database, 'users', signedIn.uid)).then(async document => {
+        let users = document.data()
+        users.followers = await (await getDoc(doc(database, 'followers', signedIn.uid))).data().users.length
+        setSetUser({ id: document.id, data: users })
+        if (!document.exists()) {
+          navigate('/setup')
+        }
       })
       getDocs(query(collection(database, 'posts'), where('user', '==', signedIn.uid))).then(async postData => {
         await await Promise.all(postData.docs.map(async document => {
           let docData = document.data()
-          let images = await Promise.all(docData.images.map(async image => {return await getDownloadURL(ref(storage, `posts/${image}`))}))
-          docData.images = images
           return { id: document.id, data: docData }
         })).then(posts => {
           setPosts(posts)

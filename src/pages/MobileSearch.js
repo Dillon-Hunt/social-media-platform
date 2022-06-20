@@ -3,15 +3,15 @@ import '../styles/MobileSearch.css'
 import React, { useState, useEffect } from "react"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
-import { getDoc, doc } from "firebase/firestore"
-import { ref, getDownloadURL } from "firebase/storage"
+import { getDoc, doc, getDocs, collection, where, query } from "firebase/firestore"
 import algoliasearch from 'algoliasearch/lite'
 import { Helmet } from 'react-helmet-async'
 
-import { storage, database, auth } from '../root/App'
+import { database, auth } from '../root/App'
 
 import MobileCommunityThumbnail from '../components/MobileCommunityThumbnail'
 import MobilePost from '../components/MobilePost'
+import MobileUserResult from '../components/MobileUserResult'
 
 import MobileNavigationBar from '../components/MobileNavigationBar'
 
@@ -23,8 +23,11 @@ const searchClient = algoliasearch(
 function MobileSearch(props) {
   let { communities } = props
 
-  let [query, setQuery] = useState("")
+  let [searchQuery, setQuery] = useState("")
   let [results, setResults] = useState([])  
+  let [userResults, setUserResults] = useState([])  
+
+  let [follows, setFollows] = useState([])  
   
   const [signedIn, loading] = useAuthState(auth)
   let [user, setSetUser] = useState([])
@@ -34,10 +37,15 @@ function MobileSearch(props) {
   useEffect(() => {
     if (!loading && signedIn) {
       getDoc(doc(database, 'users', signedIn.uid)).then(document => {
-       setSetUser({ id: document.id, data: document.data() })
-       if (!document.exists()) {
-        navigate('/setup')
-       }
+        if (!document.exists()) {
+          navigate('/setup')
+        } else {
+          setSetUser({ id: document.id, data: document.data() })
+          getDocs(query(collection(database, 'followers'), where('users', 'array-contains', signedIn.uid))).then(async documents => {
+            let following = await documents.docs.map(document => document.id)
+            setFollows(following)
+          })
+        }
       })
     }
   }, [signedIn, loading, navigate])
@@ -52,18 +60,26 @@ function MobileSearch(props) {
 
 
   let index = searchClient.initIndex("post_search")
+  let userIndex = searchClient.initIndex("user_search")
 
   const updateResults = (e) => {
     e.preventDefault()
     setQuery(e.target.value)
-    index.search(query).then(async ({ hits }) => {
+    index.search(searchQuery).then(async ({ hits }) => {
       await Promise.all(hits.map(async hit => {
         let user = await getDoc(doc(database, 'users', hit.user))
-        hit.images = await Promise.all(hit.images.map(async image => {return await getDownloadURL(ref(storage, `posts/${image}`))}))
         hit.user = user.data()
         return { id: hit.objectID, data: hit }
       })).then(posts => {
         setResults(posts)
+      })
+    })
+
+    userIndex.search(searchQuery).then(async ({ hits }) => {
+      await Promise.all(hits.map(async hit => {
+        return { id: hit.objectID, data: hit }
+      })).then(users => {
+        setUserResults(users)
       })
     })
   }
@@ -76,15 +92,22 @@ function MobileSearch(props) {
       </Helmet>
     {
       user.length !== 0 && <>
-        <input className="MobileSearch__Input" placeholder="Search..." onChange={updateResults} value={query} autoFocus />
+        <input className="MobileSearch__Input" placeholder="Search..." onChange={updateResults} value={searchQuery} autoFocus />
       </>
     }
 
 
       {/* Show Users Too */}
+
+      {
+          searchQuery.length > 0 &&
+          userResults.map((result, idx) => {
+            return <MobileUserResult key={idx} user={result} isFollowing={follows.indexOf(result.id) !== -1} currentUser={user} />
+          })
+      }
       
       {
-        (query.length > 0 
+        (searchQuery.length > 0 
         
         && 
 
