@@ -9,7 +9,7 @@ import { collection, getDocs, getDoc, doc, query, orderBy, limit } from "firebas
 import { ref, getDownloadURL } from "firebase/storage"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 
 import { auth, database, storage } from '../root/App'
 

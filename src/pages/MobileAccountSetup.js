@@ -7,7 +7,7 @@ import { setDoc, getDoc, doc } from "firebase/firestore"
 import { logEvent} from "firebase/analytics"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { v4 } from "uuid"
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 
 import { storage, database, auth, analytics } from '../root/App'
 

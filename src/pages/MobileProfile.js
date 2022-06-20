@@ -7,7 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
 import { getDoc, doc, where, getDocs, query, collection } from 'firebase/firestore'
 import { ref, getDownloadURL } from 'firebase/storage'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 
 import { auth, database, storage } from '../root/App'
 

@@ -5,7 +5,7 @@ import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth"
 import { logEvent } from "firebase/analytics"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 
 import { analytics, auth } from '../root/App'
 

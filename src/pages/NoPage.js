@@ -1,7 +1,7 @@
 import '../styles/NoPage.css'
 
 import MobileNavigationBar from '../components/MobileNavigationBar'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 
 function NoPage() {
     return (

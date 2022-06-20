@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { getDoc, doc } from "firebase/firestore"
 import { ref, getDownloadURL } from "firebase/storage"
 import algoliasearch from 'algoliasearch/lite'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 
 import { storage, database, auth } from '../root/App'
 

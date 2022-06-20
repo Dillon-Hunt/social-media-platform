@@ -2,6 +2,7 @@ import '../styles/App.css';
 
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import React, { useEffect } from "react"
+import { HelmetProvider } from 'react-helmet-async'
 
 // Mobile
 import MobileSignIn from '../pages/MobileSignIn';
@@ -72,21 +73,22 @@ function App() {
         </p>
 
         :
+        <HelmetProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route index path='/' element={<MobileSignIn />} />
+              <Route path='/setup' element={<MobileAccountSetup />} />
+              <Route path='/home' element={<MobileHome />} />
+              <Route path='/search' element={<MobileSearch communities={communities} />} />
+              <Route path='/post' element={<MobileNewPost />} />
+              <Route path='/profile' element={<MobileProfile />} />
+              <Route path='/profile/:page' element={<MobileProfile />} />
 
-        <BrowserRouter>
-          <Routes>
-            <Route index path='/' element={<MobileSignIn />} />
-            <Route path='/setup' element={<MobileAccountSetup />} />
-            <Route path='/home' element={<MobileHome />} />
-            <Route path='/search' element={<MobileSearch communities={communities} />} />
-            <Route path='/post' element={<MobileNewPost />} />
-            <Route path='/profile' element={<MobileProfile />} />
-            <Route path='/profile/:page' element={<MobileProfile />} />
+              <Route path="*" element={<NoPage />} />
+            </Routes>
 
-            <Route path="*" element={<NoPage />} />
-          </Routes>
-
-        </BrowserRouter>
+          </BrowserRouter>
+        </HelmetProvider>
       }
     </div>
   );
