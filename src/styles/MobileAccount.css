@@ -8,17 +8,28 @@
     flex-direction: column;
 }
 
+.MobileAccount__ImageContainer {
+    top: -60px;
+    border-radius: 50%;
+
+    background-color: var(--charade);
+
+    position: absolute;
+}
+
 .MobileAccount__ProfileIcon {
     width: 80px;
     height: 80px;
 
-    top: -60px;
     border-radius: 50%;
 
-    background-color: var(--extra-light-charade);
+    border: 2px solid var(--charade);
 
-    position: absolute;
     object-fit: cover;
+}
+
+.MobileAccount__ProfileIcon:not([src]) {
+    visibility: hidden;
 }
 
 .MobileAccount__Name {
@@ -45,7 +56,7 @@
 
     margin-top: 28px;
 
-    background-color: var(--extra-light-charade);
+    background-color: var(--light-charade);
 }
 
 .MobileAccount__Placeholder__Username {
@@ -54,5 +65,5 @@
 
     margin: 4px 0 0 10px;
 
-    background-color: var(--extra-light-charade);
+    background-color: var(--light-charade);
 }

@@ -15,7 +15,7 @@
     width: calc((100vw - 40px) / 3 - (10px / 3));
     height: calc((100vw - 40px) / 3 - (10px / 3));
 
-    background-color: var(--extra-light-charade);
+    background-color: var(--light-charade);
 
     object-fit: cover;
     position: relative;

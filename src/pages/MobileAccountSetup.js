@@ -1,4 +1,4 @@
-import '../styles/MobileNewPost.css'
+import '../styles/MobileAccountSetup.css'
 
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
@@ -19,17 +19,18 @@ function MobileAccountSetup() {
     const [profileIcon, setProfileIcon] = useState(null)
     const [profileBanner, setProfileBanner] = useState(null)
 
-    const [profileIconPreview, setProfileIconPreview] = useState(null)
-    const [profileBannerPreview, setProfileBannerPreview] = useState(null)
-
-    const [profileIconUpload, setProfileIconUpload] = useState(null)
-    const [profileBannerUpload, setProfileBannerUpload] = useState(null)
+    const [profileIconPreview, setProfileIconPreview] = useState('../../assets/DefaultProfileIcon.png')
+    const [profileBannerPreview, setProfileBannerPreview] = useState('../../assets/DefaultProfileBanner.jpg')
 
     const [name, setName] = useState("")
     const [username, setUsername] = useState("")
+    const [useRequired, setUseRequired] = useState(false)
     const [signedIn, loading] = useAuthState(auth)
 
     const [showAccountSetup, setShowAccountSetup] = useState(false)
+
+
+    const [loadingImages, setLoadingImages] = useState(0)
 
     useEffect(() => {
         if (!loading) {
@@ -67,30 +68,36 @@ function MobileAccountSetup() {
                 navigate("/home")
             })
         } else {
-            console.log("Please Enter A Valid Name & Username") // Display this somewhere
+            setUseRequired(true)
         } 
     }
 
-    const uploadProfileIcon = () => {
+    const uploadProfileIcon = (profileIconUpload) => {
         if (profileIconUpload == null) return
+        let newLoadingImages = loadingImages + 1
+        setLoadingImages(newLoadingImages)
         const uuid = v4()
         const imageRef = ref(storage, `users/${uuid}`)
         uploadBytes(imageRef, profileIconUpload).then(() => {
             setProfileIcon(uuid)
             getDownloadURL(imageRef).then(downloadURL => {
                 setProfileIconPreview(downloadURL)
+                setLoadingImages(newLoadingImages - 1)
             })
         })
     }
 
-    const uploadProfileBanner = () => {
+    const uploadProfileBanner = (profileBannerUpload) => {
         if (profileBannerUpload == null) return
+        let newLoadingImages = loadingImages + 1
+        setLoadingImages(newLoadingImages)
         const uuid = v4()
         const imageRef = ref(storage, `users/${uuid}`)
         uploadBytes(imageRef, profileBannerUpload).then(() => {
             setProfileBanner(uuid)
             getDownloadURL(imageRef).then(downloadURL => {
                 setProfileBannerPreview(downloadURL)
+                setLoadingImages(newLoadingImages - 1)
             })
         })
     }
@@ -98,24 +105,28 @@ function MobileAccountSetup() {
     return (
         <div className="MobileAccountSetup">
             <Helmet>
-            <title>Setup Your Account | Social Media App</title>
+                <title>Setup Your Account | Social Media App</title>
             </Helmet>
             {
                 showAccountSetup && 
                 <>
-                    <input type="file" onChange={(e) => {setProfileIconUpload(e.target.files[0])}} />
-                    <button onClick={uploadProfileIcon}>Upload Profile Image</button>
-                    <img src={profileIconPreview} alt='' />
+                    <div className='MobileAccountSetup__Upload'>
+                        <img className='MobileAccountSetup__Upload__Image' src={profileIconPreview} alt='' />
+                        <p className='MobileAccountSetup__Upload__Text'>Edit</p>
+                        <input className='MobileAccountSetup__Upload__Button' type="file" onChange={(e) => {uploadProfileIcon(e.target.files[0])}} /> {/* Limit image size */}
+                    </div>
 
-                    <input type="file" onChange={(e) => {setProfileBannerUpload(e.target.files[0])}} />
-                    <button onClick={uploadProfileBanner}>Upload Profile Banner</button>
-                    <img src={profileBannerPreview} alt='' />
+                     <div className='MobileAccountSetup__Upload__Banner'>
+                        <img className='MobileAccountSetup__Upload__Image' src={profileBannerPreview} alt='' />
+                        <p className='MobileAccountSetup__Upload__Text'>Edit Banner</p>
+                        <input className='MobileAccountSetup__Upload__Button' type="file" onChange={(e) => {uploadProfileBanner(e.target.files[0])}} /> {/* Limit image size */}
+                    </div>
 
-                    <input type="text" onChange={(e) => {setName(e.target.value)}} placeholder='Display Name' />
+                    <input className='MobileAccountSetup__Text' type="text" onChange={(e) => {setName(e.target.value)}} placeholder='Display Name' required={useRequired} />
 
-                    <input type="text" onChange={(e) => {setUsername(e.target.value)}} placeholder='Username' />
+                    <input className='MobileAccountSetup__Text' type="text" onChange={(e) => {setUsername(e.target.value)}} placeholder='Username' required={useRequired} />
 
-                    <button onClick={createUser}>Next</button>
+                    <button className='MobileAccountSetup__NextButton' onClick={createUser} disabled={!(loadingImages <= 0)}>{loadingImages <= 0 ? 'Create Account' : 'Loading Images'}</button>
                 </>
             }
         </div>

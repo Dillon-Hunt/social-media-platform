@@ -40,7 +40,9 @@ function MobilePost(props) {
   return (
     <div className="MobilePost">
       <div className="MobilePost__ProfileSection">
-        <img className="MobilePost__ProfileIcon" src={profileIcon} alt="" />
+        <div className='MobilePost__ImageContainer'>
+          <img className="MobilePost__ProfileIcon" src={profileIcon} alt='' />
+        </div>
         <p className="MobilePost__Username">{post.data.user.name}</p>
         <p className="MobilePost__Time">{getTimeString(Math.floor((Date.now() - new Date(post.data.time))))}</p>
       </div>

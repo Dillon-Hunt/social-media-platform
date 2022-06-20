@@ -45,7 +45,7 @@ export const analytics = getAnalytics(app)
 const communities = []
 
 function App() {
-  const imagesPreload = ['../../assets/home.svg', '../../assets/home-selected.svg', '../../assets/search.svg', '../../assets/search-selected.svg', '../../assets/group.svg', '../../assets/group-selected.svg', '../../assets/person.svg', '../../assets/person-selected.svg', ]
+  const imagesPreload = ['../../assets/home.svg', '../../assets/home-selected.svg', '../../assets/search.svg', '../../assets/search-selected.svg', '../../assets/group.svg', '../../assets/group-selected.svg', '../../assets/person.svg', '../../assets/person-selected.svg', '../../assets/add-green.svg']
 
   useEffect(() => {
     imagesPreload.forEach((image) => {

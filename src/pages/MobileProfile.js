@@ -52,7 +52,7 @@ function MobileProfile() {
   return (
     <div className="MobileProfile">
       <Helmet>
-        <title>{user.data.username} | Social Media App</title>
+        <title>{user === null ? 'Social Media App' : `${user.data.username} | Social Media App`}</title>
       </Helmet>
       {
         user && <>
