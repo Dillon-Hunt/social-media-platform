@@ -23,7 +23,6 @@ const searchClient = algoliasearch(
 function MobileSearch(props) {
   let { communities } = props
 
-  let [searchQuery, setQuery] = useState("")
   let [results, setResults] = useState([])  
   let [userResults, setUserResults] = useState([])  
 
@@ -64,8 +63,9 @@ function MobileSearch(props) {
 
   const updateResults = (e) => {
     e.preventDefault()
-    setQuery(e.target.value)
-    index.search(searchQuery).then(async ({ hits }) => {
+    var code = (e.keyCode ? e.keyCode : e.which);
+    if (code !== 13) return
+    index.search(e.target.value).then(async ({ hits }) => {
       await Promise.all(hits.map(async hit => {
         let user = await getDoc(doc(database, 'users', hit.user))
         hit.user = user.data()
@@ -75,7 +75,7 @@ function MobileSearch(props) {
       })
     })
 
-    userIndex.search(searchQuery).then(async ({ hits }) => {
+    userIndex.search(e.target.value).then(async ({ hits }) => {
       await Promise.all(hits.map(async hit => {
         return { id: hit.objectID, data: hit }
       })).then(users => {
@@ -92,7 +92,7 @@ function MobileSearch(props) {
       </Helmet>
     {
       user.length !== 0 && <>
-        <input className="MobileSearch__Input" placeholder="Search..." onChange={updateResults} value={searchQuery} autoFocus />
+        <input className="MobileSearch__Input" placeholder="Search..." onKeyUp={updateResults} autoFocus />
       </>
     }
 
@@ -100,14 +100,14 @@ function MobileSearch(props) {
       {/* Show Users Too */}
 
       {
-          searchQuery.length > 0 &&
+          userResults.length > 0 &&
           userResults.map((result, idx) => {
             return <MobileUserResult key={idx} user={result} isFollowing={follows.indexOf(result.id) !== -1} currentUser={user} />
           })
       }
       
       {
-        (searchQuery.length > 0 
+        (results.length > 0 
         
         && 
 
