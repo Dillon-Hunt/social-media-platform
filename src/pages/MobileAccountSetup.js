@@ -3,7 +3,7 @@ import '../styles/MobileAccountSetup.css'
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { setDoc, getDoc, doc, where, getDocs, collection, query } from "firebase/firestore"
+import { getDoc, doc, writeBatch } from "firebase/firestore"
 import { logEvent} from "firebase/analytics"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { v4 } from "uuid"
@@ -59,16 +59,17 @@ function MobileAccountSetup() {
         }
         
         if (username && name) {
-            getDocs(query(collection(database, 'usernames'), where('username', '==', username.toLowerCase()))).then(async usernames => {
-                let taken = await Promise.all(usernames.docs.map(doc => doc.id))
-                if (taken.length === 0) {
-                    setDoc(doc(database, "followers", signedIn.uid), {users: []}).then(() => {
-                        setDoc(doc(database, "usernames", signedIn.uid), {username: user.username.toLowerCase()}).then(() => {
-                            setDoc(doc(database, "users", signedIn.uid), user).then(() => {
-                                logEvent(analytics, 'create_account')
-                                navigate("/home")
-                            })
-                        })
+            getDoc(doc(database, 'usernames', username.toLowerCase())).then(async username => {
+                let taken = username.exists()
+                if (!taken) {
+                    const batch = writeBatch(database)
+                    batch.set(doc(database, "followers", signedIn.uid), {users: []})
+                    batch.set(doc(database, "usernames", user.username.toLowerCase()), {})
+                    batch.set(doc(database, "users", signedIn.uid), user)
+
+                    await batch.commit().then(() => {
+                        logEvent(analytics, 'create_account')
+                        navigate("/home")
                     })
                 } else {
                     alert("This Username Is Already Taken")
