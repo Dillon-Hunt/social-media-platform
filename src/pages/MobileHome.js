@@ -68,7 +68,7 @@ function MobileHome() {
       <MobileHeader user={user} />
       <MobileStoriesView />
       {
-        (user && posts) ? posts === "No Posts" ? <p>Looks Like You Aren't Following Anybody Yet</p> : posts.length === 0 ? <p>No Posts Yet</p> : <MobilePostsView posts={posts} user={user} /> : <MobilePostSkeleton />
+        (user && posts) ? posts === "No Posts" ? <p className='MobileHome__Message'>Looks Like You Aren't Following Anybody Yet</p> : posts.length === 0 ? <p className='MobileHome__Message'>No Posts Yet</p> : <MobilePostsView posts={posts} user={user} /> : <MobilePostSkeleton />
       }
       <MobileNavigationBar />
 

@@ -11,6 +11,7 @@ import MobileHome from '../pages/MobileHome'
 import MobileSearch from '../pages/MobileSearch'
 import MobileNewPost from '../pages/MobileNewPost'
 import MobileProfile from '../pages/MobileProfile'
+import MobileUserProfile from '../pages/MobileUserProfile'
 
 // Desktop
 
@@ -83,6 +84,7 @@ function App() {
               <Route path='/post' element={<MobileNewPost />} />
               <Route path='/profile' element={<MobileProfile />} />
               <Route path='/profile/:page' element={<MobileProfile />} />
+              <Route path='/users/:username' element={<MobileUserProfile />} />
 
               <Route path="*" element={<NoPage />} />
             </Routes>
