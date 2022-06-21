@@ -5,7 +5,7 @@ import MobileNavigationBar from '../components/MobileNavigationBar'
 import React, { useState, useEffect } from "react"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
-import { addDoc, collection, doc, getDoc } from "firebase/firestore"
+import { doc, getDoc, writeBatch } from "firebase/firestore"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { logEvent } from "firebase/analytics"
 import { v4 } from "uuid"
@@ -53,11 +53,13 @@ function MobileNewPost() {
             user: user.id,
             images: images,
             text: caption,
-            favorites: [],
             comments: [],
         }
-        
-        addDoc(collection(database, "posts"), post).then(() => {
+        const uuid = v4()
+        const batch = writeBatch(database)
+        batch.set(doc(database, "posts", uuid), post)
+        batch.set(doc(database, "favorites",uuid), {users: []})
+        batch.commit().then(() => {
             logEvent(analytics, 'create_post', {
                 tags: tags,
             })

@@ -53,8 +53,6 @@ function MobileAccountSetup() {
             name: name,
             username: username,
             bio: "",
-            favorites: [],
-            posts: [],
             following: 0,
         }
         

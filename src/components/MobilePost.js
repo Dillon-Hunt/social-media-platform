@@ -61,7 +61,7 @@ function MobilePost(props) {
         <Link to={`/users/${post.data.user.username.toLowerCase()}`} className='MobilePost__ImageContainer'>
           <img className="MobilePost__ProfileIcon" src={post.data.user.profileIcon} alt='' />
         </Link>
-        <Link to={`/users/${post.data.user.username.toLowerCase()}`}><p className="MobilePost__Username">{post.data.user.name}</p></Link>
+        <Link to={`/users/${post.data.user.username.toLowerCase()}`} className='MobilePost__Username__Link'><p className="MobilePost__Username">{post.data.user.name}</p></Link>
         <p className="MobilePost__Time">{getTimeString(Math.floor((Date.now() - new Date(post.data.time))))}</p>
       </div>
 

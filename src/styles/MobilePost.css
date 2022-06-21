@@ -48,6 +48,10 @@
     visibility: hidden;
 }
 
+.MobilePost__Username__Link {
+    text-decoration: none;
+}
+
 .MobilePost__Username {
     margin: 10px 0 0 0;
 
