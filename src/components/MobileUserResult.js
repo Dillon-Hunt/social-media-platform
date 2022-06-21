@@ -34,7 +34,7 @@ function MobileUserResult(props) {
     }
 
     return (
-        <Link to={`/users/${user.data.username}`} className="MobileUserResult">
+        <Link to={`/users/${user.data.username.toLowerCase()}`} className="MobileUserResult">
             <img className="MobileUserResult__Icon" src={user.data.profileIcon} alt='' />
             <div className="MobileUserResult__Content">
                 <p className="MobileUserResult__Name">{user.data.name}</p>

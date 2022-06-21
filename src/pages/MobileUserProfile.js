@@ -24,7 +24,7 @@ function MobileUserProfile() {
     useEffect(() => {
         if (!loading && signedIn) {
             getDoc(doc(database, 'usernames', username)).then(usernameDoc => {
-                let id = usernameDoc.data().id
+                let id = usernameDoc.data().id // Check if user exists or redirect to 404 page
 
                 getDoc(doc(database, 'users', id)).then(async document => {
                     let users = document.data()
