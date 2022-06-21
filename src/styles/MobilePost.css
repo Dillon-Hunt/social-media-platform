@@ -114,6 +114,7 @@
     color: #fff;
     display: flex;
     flex-direction: row;
+    position: relative;
 }
 
 .icon25 img {
@@ -162,8 +163,16 @@
     margin: 0;
 }
 
+.MobilePost__Overlay__Likes__Button {
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+    position: absolute;
+}
+
 @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
     .MobilePost__Overlay {
       background-color: rgba(0, 0, 0, .8);
     }
-  }
+}
