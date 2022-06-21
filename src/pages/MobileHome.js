@@ -68,7 +68,7 @@ function MobileHome() {
         <meta name="description" content="See all you friends posts and stories." />
       </Helmet>
       <MobileHeader user={user} />
-      <MobileStoriesView followers={followers} />
+      <MobileStoriesView followers={followers} user={user} />
       {
         (user && posts) ? posts === "No Posts" ? <p className='MobileHome__Message'>Looks Like You Aren't Following Anybody Yet</p> : posts.length === 0 ? <p className='MobileHome__Message'>No Posts Yet</p> : <MobilePostsView posts={posts} user={user} /> : <MobilePostSkeleton />
       }

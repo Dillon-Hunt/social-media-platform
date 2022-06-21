@@ -12,3 +12,31 @@
 .MobileStoriesView::-webkit-scrollbar {
     display: none;
 }
+
+.MobileStoriesView__Upload {
+    width: 100px;
+    height: 200px;
+
+    border-radius: 10px;
+    margin: 0 0 20px 0;
+
+    background-color: var(--light-charade);
+
+    position: relative;
+}
+
+.MobileStoriesView__Upload__Button {
+    width: 100px;
+    height: 200px;
+
+    opacity: 0;
+}
+
+.MobileStoriesView__Upload__Icon {
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    position: absolute;
+}
