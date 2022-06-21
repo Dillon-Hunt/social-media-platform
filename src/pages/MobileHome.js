@@ -19,6 +19,7 @@ function MobileHome() {
   let [posts, setPosts] = useState(null)
   const [signedIn, loading] = useAuthState(auth)
   let [user, setSetUser] = useState([])
+  let [followers, setFollowers] = useState([])
 
   const navigate = useNavigate()
 
@@ -38,11 +39,12 @@ function MobileHome() {
         if (signedIn) {
           getDocs(query(collection(database, 'followers'), where('users', 'array-contains', signedIn.uid))).then(async followers => {
             let users = await Promise.all(followers.docs.map(doc => doc.id))
+            setFollowers(users)
             if (users.length === 0) {
               setPosts("No Posts")
             } else {
-              getDocs(query(collection(database, 'posts'), orderBy("time", "desc"), where('user', 'in', users), limit(20))).then(async postData => {
-                await Promise.all(postData.docs.map(async document => {
+              getDocs(query(collection(database, 'posts'), orderBy("time", "desc"), where('user', 'in', users), limit(20))).then(postData => {
+                Promise.all(postData.docs.map(async document => {
                   let docData = document.data()
                   let user = await getDoc(doc(database, 'users', docData.user))
                   docData.user = user.data()
@@ -66,7 +68,7 @@ function MobileHome() {
         <meta name="description" content="See all you friends posts and stories." />
       </Helmet>
       <MobileHeader user={user} />
-      <MobileStoriesView />
+      <MobileStoriesView followers={followers} />
       {
         (user && posts) ? posts === "No Posts" ? <p className='MobileHome__Message'>Looks Like You Aren't Following Anybody Yet</p> : posts.length === 0 ? <p className='MobileHome__Message'>No Posts Yet</p> : <MobilePostsView posts={posts} user={user} /> : <MobilePostSkeleton />
       }

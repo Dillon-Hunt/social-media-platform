@@ -1,13 +1,14 @@
 import '../styles/MobileStoryThumbnail.css'
 
-function MobileStoryThumbnail() {
+function MobileStoryThumbnail(props) {
+    const { story } = props
     
     return (
       <div className="MobileStoryThumbnail">
 
-        <img className="MobileStoryThumbnail__Image" src="../../assets/1.jpg" alt="" />
+        <img className="MobileStoryThumbnail__Image" src={story.data.images[0]} alt='' />
         
-        <p className="MobileStoryThumbnail__Username">EpicGamer69</p>
+        <p className="MobileStoryThumbnail__Username">{story.data.user.name}</p>
   
       </div>
     );

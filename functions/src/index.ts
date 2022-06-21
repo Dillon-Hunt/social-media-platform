@@ -2,6 +2,7 @@ import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 
 admin.initializeApp();
+const db = admin.firestore();
 
 const env = functions.config();
 
@@ -50,4 +51,17 @@ exports.unindexUser = functions.firestore
       const objectID = snap.id;
 
       return userIndex.deleteObject(objectID);
+    });
+
+exports.deleteOldStories = functions.pubsub.schedule("every 1 hours")
+    .onRun(async () => {
+      const stories = await db.collection("stories").get();
+      const jobs: Promise<any>[] = [];
+      stories.forEach((snapshot) => {
+        const story = snapshot.data();
+        if (Date.now() - story.time > 86400000) {
+          jobs.push(snapshot.ref.delete());
+        }
+      });
+      return Promise.all(jobs);
     });
