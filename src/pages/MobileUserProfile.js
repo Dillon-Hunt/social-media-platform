@@ -24,26 +24,29 @@ function MobileUserProfile() {
     useEffect(() => {
         if (!loading && signedIn) {
             getDoc(doc(database, 'usernames', username)).then(usernameDoc => {
-                let id = usernameDoc.data().id // Check if user exists or redirect to 404 page
+                if (!usernameDoc.exists()) {
+                    navigate('/404')
+                } else {
+                    let id = usernameDoc.data().id
 
-                getDoc(doc(database, 'users', id)).then(async document => {
-                    let users = document.data()
-                    users.followers = await (await getDoc(doc(database, 'followers', id))).data().users.length
-                    setSetUser({ id: document.id, data: users })
-                    if (!document.exists()) {
-                    navigate('/setup')
-                    }
-                })
-
-                getDocs(query(collection(database, 'posts'), where('user', '==', id))).then(async postData => {
-                    await await Promise.all(postData.docs.map(async document => {
-                    let docData = document.data()
-                    return { id: document.id, data: docData }
-                    })).then(posts => {
-                    setPosts(posts)
+                    getDoc(doc(database, 'users', id)).then(async document => {
+                        let users = document.data()
+                        users.followers = await (await getDoc(doc(database, 'followers', id))).data().users.length
+                        setSetUser({ id: document.id, data: users })
+                        if (!document.exists()) {
+                        navigate('/setup')
+                        }
                     })
-                })
 
+                    getDocs(query(collection(database, 'posts'), where('user', '==', id))).then(async postData => {
+                        await await Promise.all(postData.docs.map(async document => {
+                        let docData = document.data()
+                        return { id: document.id, data: docData }
+                        })).then(posts => {
+                        setPosts(posts)
+                        })
+                    })
+                }
             })
         }
     }, [signedIn, loading, navigate, username])
