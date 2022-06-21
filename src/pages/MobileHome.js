@@ -1,6 +1,9 @@
+import '../styles/MobileHome.css'
+
 import MobileHeader from '../components/MobileHeader'
 import MobileStoriesView from '../components/MobileStoriesView'
 import MobilePostsView from '../components/MobilePostsView'
+import MobilePostSkeleton from "../components/MobilePostSkeleton";
 
 import MobileNavigationBar from '../components/MobileNavigationBar'
 
@@ -65,7 +68,7 @@ function MobileHome() {
       <MobileHeader user={user} />
       <MobileStoriesView />
       {
-        (user && posts) ? posts === "No Posts" ? <p>Looks Like You Aren't Following Anybody Yet</p> : posts.length === 0 ? <p>No Posts Yet</p> : <MobilePostsView posts={posts} user={user} /> : <p>Add Skeleton Posts Here</p>
+        (user && posts) ? posts === "No Posts" ? <p>Looks Like You Aren't Following Anybody Yet</p> : posts.length === 0 ? <p>No Posts Yet</p> : <MobilePostsView posts={posts} user={user} /> : <MobilePostSkeleton />
       }
       <MobileNavigationBar />
 

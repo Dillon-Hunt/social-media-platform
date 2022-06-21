@@ -10,7 +10,6 @@ function MobilePostsView(props) {
     
     return (
       <div className="MobilePostsView">
-
         {
           posts && posts.map((post, idx) => {
             return <MobilePost key={idx} post={post} user={user} />

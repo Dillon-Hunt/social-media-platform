@@ -3,7 +3,7 @@ import '../styles/MobileAccountSetup.css'
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { setDoc, getDoc, doc } from "firebase/firestore"
+import { setDoc, getDoc, doc, where, getDocs, collection, query } from "firebase/firestore"
 import { logEvent} from "firebase/analytics"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { v4 } from "uuid"
@@ -59,11 +59,20 @@ function MobileAccountSetup() {
         }
         
         if (username && name) {
-            setDoc(doc(database, "followers", signedIn.uid), {users: []}).then(() => {
-                setDoc(doc(database, "users", signedIn.uid), user).then(() => {
-                    logEvent(analytics, 'create_account')
-                    navigate("/home")
-                })
+            getDocs(query(collection(database, 'usernames'), where('username', '==', username.toLowerCase()))).then(async usernames => {
+                let taken = await Promise.all(usernames.docs.map(doc => doc.id))
+                if (taken.length === 0) {
+                    setDoc(doc(database, "followers", signedIn.uid), {users: []}).then(() => {
+                        setDoc(doc(database, "usernames", signedIn.uid), {username: user.username.toLowerCase()}).then(() => {
+                            setDoc(doc(database, "users", signedIn.uid), user).then(() => {
+                                logEvent(analytics, 'create_account')
+                                navigate("/home")
+                            })
+                        })
+                    })
+                } else {
+                    alert("This Username Is Already Taken")
+                }
             })
         } else {
             setUseRequired(true)

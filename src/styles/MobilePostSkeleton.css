@@ -1,0 +1,89 @@
+.MobilePostSkeleton {
+    width: calc(100%);
+
+    padding-bottom: 20px;
+    margin: 40px 0 0 0;
+
+    border-bottom: 2px solid var(--light-charade);
+}
+
+.MobilePostSkeleton__Header {
+    width: calc(100% - 80px);
+    height: 60px;
+
+    padding: 0 10px 0 70px;
+    margin: 0 0 10px 0;
+
+    font-size: var(--font-18);
+    line-height: 18px;
+
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: clip;
+}
+
+.MobilePostSkeleton__Icon {
+    width: 60px;
+    height: 60px;
+
+    border-radius: 50%;
+    left: 0;
+
+    background-color: var(--light-charade);
+
+    position: absolute;
+}
+
+.MobilePostSkeleton__Name {
+    height: 18px;
+    width: 100px;
+
+    margin: 10px 0 0 0;
+
+    background-color: var(--light-charade);
+}
+
+.MobilePostSkeleton__Time {
+    height: 18px;
+    width: 150px;
+
+    margin: 4px 0 10px 0;
+    background-color: var(--light-charade);
+}
+
+.MobilePostSkeleton__Image {
+    width: 100%;
+    height: 60vw;
+
+    border-radius: 10px;
+
+    background-color: var(--light-charade);
+
+    vertical-align: bottom;
+    object-fit: cover;
+}
+
+.MobilePostSkeleton__Caption {
+    height: 14px;
+    width: 100%;
+
+    margin: 10px 0 0 0;
+    background-color: var(--light-charade);
+}
+
+.MobilePostSkeleton__Caption__Line2 {
+    height: 14px;
+    width: 100%;
+
+    margin: 5px 0 0 0;
+    background-color: var(--light-charade);
+}
+
+.MobilePostSkeleton__Caption__Line3 {
+    height: 14px;
+    width: 70%;
+
+    margin: 5px 0 0 0;
+    background-color: var(--light-charade);
+}
