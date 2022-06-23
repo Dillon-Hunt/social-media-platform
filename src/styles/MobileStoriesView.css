@@ -25,11 +25,19 @@
     position: relative;
 }
 
+.MobileStoriesView__Upload[loadingimage = true] {
+    opacity: 0.5;
+}
+
 .MobileStoriesView__Upload__Button {
     width: 100px;
     height: 200px;
 
     opacity: 0;
+}
+
+.MobileStoriesView__Upload__Button:disabled {
+    cursor: not-allowed;
 }
 
 .MobileStoriesView__Upload__Icon {

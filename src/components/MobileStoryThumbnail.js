@@ -6,9 +6,9 @@ function MobileStoryThumbnail(props) {
     return (
       <div className="MobileStoryThumbnail">
 
-        <img className="MobileStoryThumbnail__Image" src={story.data.images[0]} alt='' />
+        <img className="MobileStoryThumbnail__Image" src={story.stories[0].image} alt='' />
         
-        <p className="MobileStoryThumbnail__Username">{story.data.user.name}</p>
+        <p className="MobileStoryThumbnail__Username">{story.name}</p>
   
       </div>
     );

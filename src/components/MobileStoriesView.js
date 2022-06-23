@@ -2,58 +2,61 @@ import '../styles/MobileStoriesView.css'
 
 import MobileStoryThumbnail from './MobileStoryThumbnail'
 
-import { useEffect, useState } from 'react'
-import { collection, getDocs, query, where, getDoc, doc, addDoc, orderBy } from 'firebase/firestore'
+import { collection, addDoc } from 'firebase/firestore'
 import { uploadBytes, getDownloadURL, ref } from 'firebase/storage'
 import { v4 } from 'uuid'
 
 import { database, storage } from '../root/App'
+import { useEffect, useState } from 'react'
 
 function MobileStoriesView(props) {
-  let { followers, user } = props
+  let { user } = props
 
   const [stories, setStories] = useState([])
+  const [isDisabled, setDisabled] = useState(false)
 
   useEffect(() => {
-    followers.length !== 0 && getDocs(query(collection(database, 'stories'), where('user', 'in', followers), orderBy('time', 'desc'))).then(async stories => {
-      Promise.all(stories.docs.map(async document => {
-        let story = document.data()
-        let user = await getDoc(doc(database, 'users', story.user))
-        story.user = user.data()
-        return { id: document.id, data: story }
-      })).then(stories => {
-        setStories(stories)
-      })
-    })
-  }, [followers, setStories])
+    setStories(props.stories)
+  }, [setStories, props])
 
   const uploadStory = (imageUpload) => {
-      if (imageUpload == null) return
-      const uuid = v4()
-      const imageRef = ref(storage, `stories/${uuid}`)
-      // Disable upload button
-      uploadBytes(imageRef, imageUpload).then(() => {
-        getDownloadURL(imageRef).then(downloadURL => {
-          let story = {
-            time: Date.now(),
-            user: user.id,
-            images: [downloadURL]
+    if (imageUpload == null) return
+    const uuid = v4()
+    const imageRef = ref(storage, `stories/${uuid}`)
+    setDisabled(true)
+    uploadBytes(imageRef, imageUpload).then(() => {
+      getDownloadURL(imageRef).then(downloadURL => {
+        let story = {
+          time: Date.now(),
+          image: downloadURL
+        }
+        addDoc(collection(database, `users/${user.id}/stories`), story).then((newStory) => {
+          let changed = false
+          let newStories = [...stories]
+          for (let i = 0; i < newStories.length; i++) {
+            if (newStories[i].username === user.data.username) {
+              newStories[i].stories = [story, ...newStories[i].stories]
+            }
+            changed = true
           }
-          addDoc(collection(database, 'stories'), story).then((newStory) => { // Merge stories together
-            // Enable upload button
-            story.user = user.data
-            setStories([{id: newStory.id, data: story}, ...stories])
+          !changed && newStories.push({
+            name: user.data.name,
+            username: user.data.username,
+            stories: [story]
           })
+          setStories(newStories)
+          setDisabled(false)
         })
       })
+    })
   }
 
 
   return (
     <div className="MobileStoriesView">
-      <div className='MobileStoriesView__Upload'>
+      <div className='MobileStoriesView__Upload' loadingimage={isDisabled.toString()}>
           <img className='MobileStoriesView__Upload__Icon' src={`../../assets/add-green.svg`} alt="" />
-          <input className='MobileStoriesView__Upload__Button' type="file" onChange={(e) => {uploadStory(e.target.files[0])}} /> {/* Limit image size */}
+          <input className='MobileStoriesView__Upload__Button' type="file" onChange={(e) => {uploadStory(e.target.files[0])}} disabled={isDisabled} /> {/* Limit image size */}
       </div>
       {
         stories.map((story, idx) => {
