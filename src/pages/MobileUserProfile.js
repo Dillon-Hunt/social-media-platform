@@ -5,7 +5,7 @@ import MobileNavigationBar from '../components/MobileNavigationBar'
 import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate, useParams } from "react-router-dom"
-import { getDoc, doc, where, getDocs, query, collection } from 'firebase/firestore'
+import { getDoc, doc, getDocs, query, collection } from 'firebase/firestore'
 import { Helmet } from 'react-helmet-async'
 
 import { auth, database } from '../root/App'
@@ -33,12 +33,9 @@ function MobileUserProfile() {
                         let users = document.data()
                         users.followers = await (await getDoc(doc(database, 'followers', id))).data().users.length
                         setSetUser({ id: document.id, data: users })
-                        if (!document.exists()) {
-                        navigate('/setup')
-                        }
                     })
 
-                    getDocs(query(collection(database, 'posts'), where('user', '==', id))).then(async postData => {
+                    getDocs(query(collection(database, `users/${id}/posts`))).then(async postData => {
                         await await Promise.all(postData.docs.map(async document => {
                         let docData = document.data()
                         return { id: document.id, data: docData }

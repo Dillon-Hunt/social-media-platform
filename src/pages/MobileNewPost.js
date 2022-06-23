@@ -5,7 +5,7 @@ import MobileNavigationBar from '../components/MobileNavigationBar'
 import React, { useState, useEffect } from "react"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
-import { doc, getDoc, writeBatch } from "firebase/firestore"
+import { doc, writeBatch } from "firebase/firestore"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { logEvent } from "firebase/analytics"
 import { v4 } from "uuid"
@@ -20,20 +20,14 @@ function MobileNewPost() {
     const [tags, setTags] = useState([])
     const [images, setImages] = useState([])
     const [signedIn, loading] = useAuthState(auth)
-    let [user, setSetUser] = useState([])
 
     const [loadingImages, setLoadingImages] = useState(0)
   
     const navigate = useNavigate()
   
     useEffect(() => {
-      if (!loading && signedIn) {
-        getDoc(doc(database, 'users', signedIn.uid)).then(document => {
-         setSetUser({ id: document.id, data: document.data() })
-         if (!document.exists()) {
+      if (!loading && !signedIn) {
           navigate('/setup')
-         }
-        })
       }
     }, [signedIn, loading, navigate])
 
@@ -50,15 +44,15 @@ function MobileNewPost() {
         let post = {
             time: Date.now(),
             tags: tags,
-            user: user.id,
+            user: signedIn.id,
             images: images,
             text: caption,
             comments: [],
         }
         const uuid = v4()
         const batch = writeBatch(database)
-        batch.set(doc(database, "posts", uuid), post)
-        batch.set(doc(database, "favorites",uuid), {users: []})
+        batch.set(doc(database, `users/${signedIn.uid}/posts/${uuid}`), post)
+        batch.set(doc(database, "favorites", uuid), {users: []})
         batch.commit().then(() => {
             logEvent(analytics, 'create_post', {
                 tags: tags,

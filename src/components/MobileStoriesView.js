@@ -31,17 +31,19 @@ function MobileStoriesView(props) {
       if (imageUpload == null) return
       const uuid = v4()
       const imageRef = ref(storage, `stories/${uuid}`)
+      // Disable upload button
       uploadBytes(imageRef, imageUpload).then(() => {
-          getDownloadURL(imageRef).then(downloadURL => {
-            let story = {
-              time: Date.now(),
-              user: user.id,
-              images: [downloadURL]
-            }
-            addDoc(collection(database, 'stories'), story).then((newStory) => { // Merge stories together
-              setStories([{id: newStory.id, data: story}, ...stories])
-            })
+        getDownloadURL(imageRef).then(downloadURL => {
+          let story = {
+            time: Date.now(),
+            user: user.id,
+            images: [downloadURL]
+          }
+          addDoc(collection(database, 'stories'), story).then((newStory) => { // Merge stories together
+            // Enable upload button
+            setStories([{id: newStory.id, data: story}, ...stories])
           })
+        })
       })
   }
 

@@ -44,7 +44,7 @@ function MobilePost(props) {
       return () => bind = false
     })
   }, [post, user])
-
+ 
   const favoritePost = () => {
     !favorite ? updateDoc(doc(database, 'favorites', post.id), {"users": arrayUnion(user.id)}).then(() => {
       setFavoriteCount(favoriteCount + 1)
@@ -58,17 +58,17 @@ function MobilePost(props) {
   return (
     <div className="MobilePost">
       <div className="MobilePost__ProfileSection">
-        <Link to={`/users/${post.data.user.username.toLowerCase()}`} className='MobilePost__ImageContainer'>
-          <img className="MobilePost__ProfileIcon" src={post.data.user.profileIcon} alt='' />
+        <Link to={`/users/${post.user.username.toLowerCase()}`} className='MobilePost__ImageContainer'>
+          <img className="MobilePost__ProfileIcon" src={post.user.profileIcon} alt='' />
         </Link>
-        <Link to={`/users/${post.data.user.username.toLowerCase()}`} className='MobilePost__Username__Link'><p className="MobilePost__Username">{post.data.user.name}</p></Link>
-        <p className="MobilePost__Time">{getTimeString(Math.floor((Date.now() - new Date(post.data.time))))}</p>
+        <Link to={`/users/${post.user.username.toLowerCase()}`} className='MobilePost__Username__Link'><p className="MobilePost__Username">{post.user.name}</p></Link>
+        <p className="MobilePost__Time">{getTimeString(Math.floor((Date.now() - new Date(post.time))))}</p>
       </div>
 
       <div className="MobilePost__ImageSection">
-        <img className="MobilePost__Image" src={post.data.images[0]} alt="" /> {/* Add Slideshow In Future */}
+        <img className="MobilePost__Image" src={post.images[0]} alt="" /> {/* Add Slideshow In Future */}
         <div className="MobilePost__Overlay">
-          <div className="icon25"> {/* post.id does not exist at the moment, will need a way to get the document id */}
+          <div className="icon25">
             <img className="MobilePost__Overlay__Icon" src={`../../assets/favorite${favorite ? "-filled" : ""}.svg`} alt="favorite" />
             <p className="MobilePost__Overlay__Likes">{getValueString(favoriteCount)}</p>
             <button onClick={favoritePost} className="MobilePost__Overlay__Likes__Button" />
@@ -77,7 +77,7 @@ function MobilePost(props) {
 
           <div className="icon25">
             <img className="MobilePost__Overlay__Icon" src="../../assets/comment.svg" alt="comment" />
-            <p className="MobilePost__Overlay__Comments">{getValueString(post.data.comments.length)}</p>
+            <p className="MobilePost__Overlay__Comments">{0/* getValueString(post.comments.length) */}</p>
           </div>
 
           <div className="icon25 MobilePost__Overlay__More">
@@ -88,12 +88,12 @@ function MobilePost(props) {
 
 
       <div className="MobilePost__CaptionSection">
-        <p className="MobilePost__Content">{post.data.text}</p>
+        <p className="MobilePost__Content">{post.text}</p>
         <div className="MobilePost__Tags">
           {/* These will be <a></a> tags at some point */}
           
           {
-            post.data.tags.map((tag, idx) => {
+            post.tags.map((tag, idx) => {
               return <p key={idx}>#{tag}</p>
             })
           }

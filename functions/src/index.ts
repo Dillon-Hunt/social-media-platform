@@ -1,18 +1,19 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+import algoliasearch from "algoliasearch";
 
 admin.initializeApp();
+
 const db = admin.firestore();
-
+const storage = admin.storage();
 const env = functions.config();
-
-import algoliasearch from "algoliasearch";
+const bucket = storage.bucket("social-media-app-fcc1f.appspot.com");
 
 const client = algoliasearch(env.algolia.appid, env.algolia.apikey);
 const index = client.initIndex("post_search");
 
 exports.indexPost = functions.firestore
-    .document("posts/{postId}")
+    .document("users/{userId}/posts/{postId}")
     .onCreate((snap, context) => {
       const data = snap.data(); // Potentially Hide Some Data
       const objectID = snap.id;
@@ -24,7 +25,7 @@ exports.indexPost = functions.firestore
     });
 
 exports.unindexPost = functions.firestore
-    .document("posts/{postId}")
+    .document("users/{userId}/posts/{postId}")
     .onDelete((snap, context) => {
       const objectID = snap.id;
 
@@ -61,6 +62,10 @@ exports.deleteOldStories = functions.pubsub.schedule("every 1 hours")
         const story = snapshot.data();
         if (Date.now() - story.time > 86400000) {
           jobs.push(snapshot.ref.delete());
+          const path = decodeURIComponent(story.images[0]
+              .split("o/")[1]
+              .split("?")[0]);
+          jobs.push(bucket.file(path).delete());
         }
       });
       return Promise.all(jobs);

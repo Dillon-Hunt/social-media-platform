@@ -8,7 +8,7 @@ import MobilePostSkeleton from "../components/MobilePostSkeleton";
 import MobileNavigationBar from '../components/MobileNavigationBar'
 
 import React, { useState, useEffect } from "react"
-import { collection, getDocs, getDoc, doc, query, orderBy, limit, where } from "firebase/firestore"
+import { collection, getDocs, getDoc, doc, query, where, documentId } from "firebase/firestore"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
 import { Helmet } from 'react-helmet-async'
@@ -38,21 +38,26 @@ function MobileHome() {
       if (!loading) {
         if (signedIn) {
           getDocs(query(collection(database, 'followers'), where('users', 'array-contains', signedIn.uid))).then(async followers => {
-            let users = await Promise.all(followers.docs.map(doc => doc.id))
-            setFollowers(users)
-            if (users.length === 0) {
+            let followerIds = await Promise.all(followers.docs.map(doc => doc.id))
+            setFollowers(followerIds)
+            if (followerIds.length === 0) {
               setPosts("No Posts")
             } else {
-              getDocs(query(collection(database, 'posts'), orderBy("time", "desc"), where('user', 'in', users), limit(20))).then(postData => {
-                Promise.all(postData.docs.map(async document => {
-                  let docData = document.data()
-                  let user = await getDoc(doc(database, 'users', docData.user))
-                  docData.user = user.data()
-                  return { id: document.id, data: docData }
-                })).then(posts => {
-                  setPosts(posts)
-                })
-              })
+              let followersData = await getDocs(query(collection(database, 'users'), where(documentId(),'in', followerIds)))
+              followersData = followersData.docs.map(doc => doc.data())
+              let recentPostsUnmerged = []
+              for (let i = 0; i < followersData.length; i++) {
+                followersData[i].recentPosts.forEach(post => {
+                  post.user = {
+                    name: followersData[i].name,
+                    username: followersData[i].username,
+                    profileIcon: followersData[i].profileIcon
+                  }
+                  recentPostsUnmerged.push(post)
+                });
+              }
+              let recentPosts = [].concat(recentPostsUnmerged).sort((a, b) => {return a.time - b.time})
+              setPosts(recentPosts)
             }
           })
         } else {

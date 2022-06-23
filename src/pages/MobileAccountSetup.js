@@ -54,6 +54,7 @@ function MobileAccountSetup() {
             username: username,
             bio: "",
             following: 0,
+            recentPosts: [],
         }
         
         if (username && name) {
