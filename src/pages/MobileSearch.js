@@ -65,14 +65,11 @@ function MobileSearch(props) {
     e.preventDefault()
     var code = (e.keyCode ? e.keyCode : e.which);
     if (code !== 13) return
-    index.search(e.target.value).then(async ({ hits }) => {
-      await Promise.all(hits.map(async hit => {
-        let user = await getDoc(doc(database, 'users', hit.user))
-        hit.user = user.data()
-        return { id: hit.objectID, data: hit }
-      })).then(posts => {
-        setResults(posts)
+    index.search(e.target.value).then(({hits}) => {
+      hits.forEach(hit => {
+        hit.id = hit.objectID
       })
+      setResults(hits)
     })
 
     userIndex.search(e.target.value).then(async ({ hits }) => {

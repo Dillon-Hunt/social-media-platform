@@ -5,7 +5,7 @@ import MobileNavigationBar from '../components/MobileNavigationBar'
 import React, { useState, useEffect } from "react"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
-import { doc, writeBatch } from "firebase/firestore"
+import { doc, writeBatch, arrayUnion } from "firebase/firestore"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { logEvent } from "firebase/analytics"
 import { v4 } from "uuid"
@@ -52,6 +52,7 @@ function MobileNewPost() {
         const uuid = v4()
         const batch = writeBatch(database)
         batch.set(doc(database, `users/${signedIn.uid}/posts/${uuid}`), post)
+        batch.update(doc(database, 'users', signedIn.uid), {"recentPosts": arrayUnion(post)})
         batch.set(doc(database, "favorites", uuid), {users: []})
         batch.commit().then(() => {
             logEvent(analytics, 'create_post', {

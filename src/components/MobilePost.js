@@ -28,7 +28,7 @@ function getValueString(count) {
 }
 
 function MobilePost(props) {
-  let { post, user } = props
+  let { user, post } = props
 
   const [favorite, setFavorite] = useState(false)
   const [favoriteCount, setFavoriteCount] = useState(0)

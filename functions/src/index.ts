@@ -14,8 +14,18 @@ const index = client.initIndex("post_search");
 
 exports.indexPost = functions.firestore
     .document("users/{userId}/posts/{postId}")
-    .onCreate((snap, context) => {
-      const data = snap.data(); // Potentially Hide Some Data
+    .onCreate(async (snap, context) => {
+      const data = snap.data();
+      const snapshot = await db.doc(`users/${context.params.name}`).get();
+      const user = await snapshot.data();
+      if (user === undefined) {
+        return null;
+      }
+      data.user = {
+        name: user.name,
+        username: user.username,
+        profileIcon: user.profileIcon,
+      };
       const objectID = snap.id;
 
       return index.saveObject({
@@ -37,7 +47,7 @@ const userIndex = client.initIndex("user_search");
 exports.indexUser = functions.firestore
     .document("users/{userId}")
     .onCreate((snap, context) => {
-      const data = snap.data(); // Potentially Hide Some Data
+      const data = snap.data();
       const objectID = snap.id;
 
       return userIndex.saveObject({
