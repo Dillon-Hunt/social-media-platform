@@ -41,6 +41,7 @@ function MobileStoriesView(props) {
           }
           addDoc(collection(database, 'stories'), story).then((newStory) => { // Merge stories together
             // Enable upload button
+            story.user = user.data
             setStories([{id: newStory.id, data: story}, ...stories])
           })
         })
