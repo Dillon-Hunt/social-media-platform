@@ -15,7 +15,7 @@
 
 .MobileStoriesView__Upload {
     width: 100px;
-    height: 200px;
+    height: 175px;
 
     border-radius: 10px;
     margin: 0 0 20px 0;
@@ -31,8 +31,9 @@
 
 .MobileStoriesView__Upload__Button {
     width: 100px;
-    height: 200px;
+    height: 175px;
 
+    margin-bottom: 4px;
     opacity: 0;
 }
 
