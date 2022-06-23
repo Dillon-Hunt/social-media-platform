@@ -66,13 +66,13 @@ exports.unindexUser = functions.firestore
 
 exports.deleteOldStories = functions.pubsub.schedule("every 1 hours")
     .onRun(async () => {
-      const stories = await db.collection("stories").get();
+      const stories = await db.collectionGroup("stories").get();
       const jobs: Promise<any>[] = [];
       stories.forEach((snapshot) => {
         const story = snapshot.data();
         if (Date.now() - story.time > 86400000) {
           jobs.push(snapshot.ref.delete());
-          const path = decodeURIComponent(story.images[0]
+          const path = decodeURIComponent(story.image
               .split("o/")[1]
               .split("?")[0]);
           jobs.push(bucket.file(path).delete());
