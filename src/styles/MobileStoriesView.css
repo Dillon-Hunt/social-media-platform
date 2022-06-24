@@ -1,6 +1,6 @@
 .MobileStoriesView {
     margin: 20px 0;
-    gap: 20px;
+    grid-gap: 20px;
 
     display: flex;
     flex-direction: row;
