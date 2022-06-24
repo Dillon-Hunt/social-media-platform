@@ -19,7 +19,7 @@ function MobileCommunities() {
   return (
     <div className="MobileCommunities">
         <Helmet>
-          <title>Community Name Here | Social Media App</title> {/* Add actual community name */}
+          <title>Community Name Here</title> {/* Add actual community name */}
         </Helmet>
         <MobileNavigationBar />
 

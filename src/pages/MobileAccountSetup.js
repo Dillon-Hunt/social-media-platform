@@ -109,7 +109,7 @@ function MobileAccountSetup() {
     return (
         <div className="MobileAccountSetup">
             <Helmet>
-                <title>Setup Your Account | Social Media App</title>
+                <title>Setup Your Account</title>
             </Helmet>
             {
                 showAccountSetup && 

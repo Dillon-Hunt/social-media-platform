@@ -59,7 +59,7 @@ function MobileChat() {
   return (
     <div className="MobileChat">
         <Helmet>
-          <title>Person | Social Media App</title> {/* Add actual person name */}
+          <title>Person</title> {/* Add actual person name */}
         </Helmet>
         <Link to='/messages' className='MobileChat__Back'>{"< Back"}</Link>
         <div className="MobileChat__Messages">

@@ -65,7 +65,7 @@ function MobileSignIn() {
     return (
         <div>
             <Helmet>
-                <title>Sign In | Social Media App</title>
+                <title>Sign In</title>
                 <meta name="description" content="Sign in or sign up here" />
             </Helmet>
             <h1 className="MobileSignIn__Text">Social Media App</h1>

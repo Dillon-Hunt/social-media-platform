@@ -84,7 +84,7 @@ function MobileSearch(props) {
   return (
     <div className="MobileSearch">
       <Helmet>
-        <title>Search | Social Media App</title>
+        <title>Search</title>
         <meta name="description" content="Find a user, post or community here." />
       </Helmet>
     {

@@ -84,7 +84,7 @@ function MobileHome() {
   return (
     <div className="MobileHome">
       <Helmet>
-        <title>Home | Social Media App</title>
+        <title>Home</title>
         <meta name="description" content="See all you friends posts and stories." />
       </Helmet>
       <MobileHeader user={user} />

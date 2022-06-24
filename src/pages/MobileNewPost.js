@@ -78,7 +78,7 @@ function MobileNewPost() {
     return (
         <div className="MobileNewPost">
             <Helmet>
-            <title>Create Post | Social Media App</title>
+            <title>Create Post</title>
             <meta name="description" content="Create a new post on you account." />
             </Helmet>
             <div className='MobileNewPost__Images'>
