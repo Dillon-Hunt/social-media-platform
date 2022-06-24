@@ -2,6 +2,18 @@
     overflow-y: scroll;
 }
 
+.MobileChat__Messages {
+    bottom: 60px;
+    left: 0;
+    padding: 0 20px;
+
+    width: calc(100% - 40px);
+    height: calc(100vh - 120px);
+
+    position: absolute;
+    overflow: scroll;
+}
+
 .MobileChat__Back {
     margin-bottom: 40px;
 

@@ -4,7 +4,7 @@ import MobileMessage from '../components/MobileMessage'
 
 import { useParams } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate, Link } from "react-router-dom"
 import { collection, orderBy, limit, query, onSnapshot, addDoc } from 'firebase/firestore'
@@ -14,11 +14,13 @@ import { auth, database } from '../root/App'
 function MobileChat() {
   let { chatId } = useParams()
 
-  const [messages, setMessages] = useState(null)
+  const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState("")
 
+  const postsEnd = useRef()
+
   onSnapshot(query(collection(database, `/chats/${chatId}/messages`), orderBy('time'), limit(25)), (snapshot) => {
-    setMessages(snapshot.docs.map(doc => doc.data()))
+    snapshot.docs.map(doc => doc.data()).length !== messages.length && setMessages(snapshot.docs.map(doc => doc.data()))
   })
 
   const [signedIn, loading] = useAuthState(auth)
@@ -26,18 +28,22 @@ function MobileChat() {
   const navigate = useNavigate()
 
   useEffect(() => {
+    postsEnd.current.scrollIntoView({ behavior: 'instant'})
+  }, [messages])
+
+  useEffect(() => {
       if (!loading) {
-        if (signedIn) {
-        } else {
+        if (!signedIn) {
           navigate('/')
         }
       }
-  }, [signedIn, loading, navigate])
+  }, [signedIn, loading, navigate, messages])
 
-  const postMessage = (e) => {
+  const postMessage = async (e) => {
     e.preventDefault()
 
     if (newMessage === "") return
+    setNewMessage("")
 
     const message = {
       user: signedIn.uid,
@@ -45,9 +51,9 @@ function MobileChat() {
       text: newMessage
     }
 
-    addDoc(collection(database, `/chats/${chatId}/messages`), message)
+    await addDoc(collection(database, `/chats/${chatId}/messages`), message)
 
-    setNewMessage("")
+    postsEnd.current.scrollIntoView({ behavior: 'instant'})
   }
 
   return (
@@ -56,11 +62,14 @@ function MobileChat() {
           <title>Person | Social Media App</title> {/* Add actual person name */}
         </Helmet>
         <Link to='/friends' className='MobileChat__Back'>{"< Back"}</Link>
-        {
-          messages && messages.map((message, idx) => {
-            return <MobileMessage key={idx} message={message} currentUser={message.user === auth.currentUser.uid} />
-          })
-        }
+        <div className="MobileChat__Messages">
+          {
+            messages.map((message, idx) => {
+              return <MobileMessage key={idx} message={message} currentUser={message.user === auth.currentUser.uid} />
+            })
+          }
+          <div ref={postsEnd} />
+        </div>
         <form onSubmit={postMessage} className='MobileChat__NewMessage'>
           <input type="text" placeholder='Start Typing Message' value={newMessage} onChange={(e) => setNewMessage(e.target.value)} />
         </form>
