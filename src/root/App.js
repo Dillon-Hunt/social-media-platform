@@ -10,6 +10,8 @@ import MobileAccountSetup from '../pages/MobileAccountSetup';
 import MobileHome from '../pages/MobileHome'
 import MobileSearch from '../pages/MobileSearch'
 import MobileNewPost from '../pages/MobileNewPost'
+import MobileFriends from '../pages/MobileFriends'
+import MobileChat from '../pages/MobileChat'
 import MobileProfile from '../pages/MobileProfile'
 import MobileUserProfile from '../pages/MobileUserProfile'
 
@@ -82,6 +84,8 @@ function App() {
               <Route path='/home' element={<MobileHome />} />
               <Route path='/search' element={<MobileSearch communities={communities} />} />
               <Route path='/post' element={<MobileNewPost />} />
+              <Route path='/friends' element={<MobileFriends />} />
+              <Route path='/chats/:chatId' element={<MobileChat />} />
               <Route path='/profile' element={<MobileProfile />} />
               <Route path='/profile/:page' element={<MobileProfile />} />
               <Route path='/users/:username' element={<MobileUserProfile />} />

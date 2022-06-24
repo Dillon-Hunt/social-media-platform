@@ -1,0 +1,42 @@
+.MobileMessage__CurrentUser {
+    width: 100%;
+
+    display: flex;
+    justify-content: right;
+}
+
+.MobileMessage__AlternateUser {
+    width: 100%;
+
+    display: flex;
+    justify-content: left;
+}
+
+.MobileMessage {
+    padding: 5px 15px;
+    margin-bottom: 5px;
+}
+
+.MobileMessage__CurrentUser .MobileMessage {
+    max-width: 40vw;
+
+    border-radius: 10px 10px 0 10px;
+
+    background-color: var(--shamrock);
+
+    text-align: right;
+}
+
+.MobileMessage__AlternateUser .MobileMessage {
+    max-width: 40vw;
+
+    border-radius: 10px 10px 10px 0;
+
+    background-color: var(--light-charade);
+
+    text-align: left;
+}
+
+.MobileMessage__Text {
+    color: var(--white);
+}

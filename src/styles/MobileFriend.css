@@ -1,0 +1,46 @@
+.MobileFriend {
+    width: calc(100% - 40px);
+
+    margin: 20px 0 0 40px;
+    border-radius: 0 10px 10px 0;
+
+    background-color: var(--light-charade);
+
+    display: flex;
+    text-decoration: none;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+}
+
+.MobileFriend__Content {
+    margin: 0 0 0 10px;
+
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.MobileFriend__Icon {
+    width: 80px;
+    height: 80px;
+
+    margin: 0 0 0 -40px;
+    border-radius: 50%;
+
+    border: 10px solid var(--light-charade);
+}
+
+.MobileFriend__Name {
+    font-weight: 600;
+    margin: 0;
+
+    color: var(--white)
+}
+
+.MobileFriend__Username {
+    font-weight: 300;
+    margin: 0;
+
+    color: var(--white)
+}

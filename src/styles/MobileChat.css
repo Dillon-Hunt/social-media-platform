@@ -1,0 +1,32 @@
+.MobileChat {
+    overflow-y: scroll;
+}
+
+.MobileChat__Back {
+    margin-bottom: 40px;
+
+    color: var(--white);
+
+    text-decoration: none;
+}
+
+.MobileChat__NewMessage {
+    width: 100%;
+
+    bottom: 0;
+    left: 0;
+
+    position: absolute;
+}
+
+.MobileChat__NewMessage input {
+    width: 100%;
+
+    padding: 20px;
+
+    background-color: var(--light-charade);
+    color: var(--white);
+
+    border: none;
+    outline: none;
+}
