@@ -19,8 +19,8 @@ function MobileChat() {
 
   const postsEnd = useRef()
 
-  onSnapshot(query(collection(database, `/chats/${chatId}/messages`), orderBy('time'), limit(25)), (snapshot) => {
-    snapshot.docs.map(doc => doc.data()).length !== messages.length && setMessages(snapshot.docs.map(doc => doc.data()))
+  onSnapshot(query(collection(database, `/chats/${chatId}/messages`), orderBy('time', 'desc'), limit(25)), (snapshot) => {
+    snapshot.docs.map(doc => doc.data()).length !== messages.length && setMessages(snapshot.docs.map(doc => doc.data()).reverse())
   })
 
   const [signedIn, loading] = useAuthState(auth)
