@@ -100,7 +100,7 @@
 
     bottom: 0;
     padding: 15px 20px;
-    grid-gap: 20px;
+    column-gap: 20px;
 
     background-color: rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(10px);
@@ -113,7 +113,7 @@
 
 .icon25 {
     margin: 0;
-    grid-gap: 5px;
+    column-gap: 5px;
 
     color: #fff;
     display: flex;
@@ -156,7 +156,7 @@
 
     color: var(--shamrock);
 
-    grid-gap: 10px;
+    column-gap: 10px;
     font-size: var(--font-10);
 
     display: flex;

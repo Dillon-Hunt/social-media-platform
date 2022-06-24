@@ -3,7 +3,7 @@
 }
 
 .MobileAccountContent__Gallery {
-    grid-gap: 5px;
+    column-gap: 5px;
 
     display: flex;
     flex-direction: row;
@@ -39,7 +39,7 @@
 .MobileAccountContent__Navigation {
     margin: 0 0 20px 0;
 
-    grid-gap: calc(100% / 3 - 100px);
+    column-gap: calc(100% / 3 - 100px);
 
     text-align: center;
     position: relative;

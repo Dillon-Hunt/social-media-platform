@@ -68,7 +68,7 @@
 }
 
 .MobileNewPost__Images {
-    grid-gap: 20px;
+    column-gap: 20px;
 
     display: flex;
     flex-direction: row;
