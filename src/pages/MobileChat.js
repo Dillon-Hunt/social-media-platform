@@ -71,7 +71,7 @@ function MobileChat() {
           <div ref={postsEnd} />
         </div>
         <form onSubmit={postMessage} className='MobileChat__NewMessage'>
-          <input type="submit"  placeholder='Start Typing Message' value={newMessage} onChange={(e) => setNewMessage(e.target.value)} />
+          <input type="text"  placeholder='Start Typing Message' value={newMessage} onChange={(e) => setNewMessage(e.target.value)} />
         </form>
     </div>
   );

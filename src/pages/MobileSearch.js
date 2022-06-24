@@ -89,7 +89,7 @@ function MobileSearch(props) {
       </Helmet>
     {
       user.length !== 0 && <>
-        <input type="text" className="MobileSearch__Input" placeholder="Search..." onKeyUp={updateResults} autoFocus />
+        <input type="search" className="MobileSearch__Input" placeholder="Search..." onKeyUp={updateResults} autoFocus />
       </>
     }
 

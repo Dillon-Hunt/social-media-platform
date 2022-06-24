@@ -1,3 +1,5 @@
+import '../styles/MobileFriends.css'
+
 import MobileNavigationBar from '../components/MobileNavigationBar'
 import MobileFriend from '../components/MobileFriend'
 
@@ -42,6 +44,7 @@ function MobileFriends() {
         <Helmet>
           <title>Friends | Social Media App</title>
         </Helmet>
+        <h2 className="MobileFriends__Title">Following</h2>
         {
           friends.length !== 0 && 
             friends.map((friend, idx) => {
