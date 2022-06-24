@@ -84,7 +84,7 @@ function MobileNewPost() {
             <div className='MobileNewPost__Images'>
                 <div className='MobileNewPost__Upload'>
                     <img className='MobileNewPost__Upload__Icon' src={`../../assets/add-green.svg`} alt="" />
-                    <input className='MobileNewPost__Upload__Button' type="file" onChange={(e) => {uploadImagePost(e.target.files[0])}} /> {/* Limit image size */}
+                    <input className='MobileNewPost__Upload__Button' type="file" onChange={(e) => {uploadImagePost(e.target.files[0])}} accept="image/png, image/gif, image/jpeg" /> {/* Limit image size */}
                 </div>
                 {
                 images.map((image, idx) => {

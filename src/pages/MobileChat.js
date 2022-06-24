@@ -61,7 +61,7 @@ function MobileChat() {
         <Helmet>
           <title>Person | Social Media App</title> {/* Add actual person name */}
         </Helmet>
-        <Link to='/friends' className='MobileChat__Back'>{"< Back"}</Link>
+        <Link to='/messages' className='MobileChat__Back'>{"< Back"}</Link>
         <div className="MobileChat__Messages">
           {
             messages.map((message, idx) => {

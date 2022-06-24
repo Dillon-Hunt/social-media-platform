@@ -22,6 +22,10 @@
 .MobileSignIn__Button__Text {
     margin: 5px 5px 5px 10px;
     font-weight: 200;
+
+    color: var(--white);
+
+    text-decoration: none;
 }
 
 .SignOutButton {

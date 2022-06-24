@@ -44,7 +44,7 @@ function MobileFriends() {
   return (
     <div className="MobileFriends">
         <Helmet>
-          <title>Friends | Social Media App</title>
+          <title>Messages | Social Media App</title>
         </Helmet>
         <h2 className="MobileFriends__Title">Following</h2>
         {

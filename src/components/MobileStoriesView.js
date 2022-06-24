@@ -56,7 +56,7 @@ function MobileStoriesView(props) {
     <div className="MobileStoriesView">
       <div className='MobileStoriesView__Upload' loadingimage={isDisabled.toString()}>
           <img className='MobileStoriesView__Upload__Icon' src={`../../assets/add-green.svg`} alt="" />
-          <input className='MobileStoriesView__Upload__Button' type="file" onChange={(e) => {uploadStory(e.target.files[0])}} disabled={isDisabled} /> {/* Limit image size */}
+          <input className='MobileStoriesView__Upload__Button' type="file" onChange={(e) => {uploadStory(e.target.files[0])}} disabled={isDisabled} accept="image/png, image/gif, image/jpeg" /> {/* Limit image size */}
           <p className='MobileStoryThumbnail__Username'>Add To Story</p>
       </div>
       {

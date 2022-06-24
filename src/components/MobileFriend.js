@@ -25,7 +25,7 @@ function MobileFriend(props) {
     }
 
     return (
-        <div onClick={goToChat} className="MobileUserResult">
+        <div onClick={goToChat} className="MobileFriend">
             <img className="MobileFriend__Icon" src={user.profileIcon} alt='' />
             <div className="MobileFriend__Content">
                 <p className="MobileFriend__Name">{user.name}</p>
