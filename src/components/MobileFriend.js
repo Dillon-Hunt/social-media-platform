@@ -11,7 +11,6 @@ function MobileFriend(props) {
     const navigate = useNavigate()
 
     const goToChat = async () => {
-        console.log(user.id, currentUser)
         let chat = await getDocs(query(collection(database, 'chats'), where(user.id, '==', true),  where(currentUser, '==', true)), limit(1))
         if (chat.docs.length !== 0) {
             navigate(`/chats/${chat.docs[0].id}`)
