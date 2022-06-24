@@ -26,11 +26,13 @@ function MobileFriends() {
             let followerIds = await Promise.all(followers.docs.map(doc => doc.id))
             let friends = []
             await followerIds.forEach(async id => {
-              const friendData = await getDoc(doc(database, 'users', id))
-              let friend = friendData.data()
-              friend.id = friendData.id
-              setFriends([...friends, friend])
-              friends.push(friend)
+              if (id !== signedIn.uid) {
+                const friendData = await getDoc(doc(database, 'users', id))
+                let friend = friendData.data()
+                friend.id = friendData.id
+                setFriends([...friends, friend])
+                friends.push(friend)
+              }
             })
           })
         } else {
