@@ -7,11 +7,10 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
 import { doc, writeBatch, arrayUnion } from "firebase/firestore"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
-import { logEvent } from "firebase/analytics"
 import { v4 } from "uuid"
 import { Helmet } from 'react-helmet-async'
 
-import { storage, database, auth, analytics } from '../root/App'
+import { storage, database, auth } from '../root/App'
 
 
 function MobileNewPost() {
@@ -55,9 +54,9 @@ function MobileNewPost() {
         batch.update(doc(database, 'users', signedIn.uid), {"recentPosts": arrayUnion(post)})
         batch.set(doc(database, "favorites", uuid), {users: []})
         batch.commit().then(() => {
-            logEvent(analytics, 'create_post', {
+            /* logEvent(analytics, 'create_post', {
                 tags: tags,
-            })
+            }) */
             navigate("/")
         })
     }

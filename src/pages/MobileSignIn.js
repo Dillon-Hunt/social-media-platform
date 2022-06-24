@@ -2,12 +2,11 @@ import '../styles/MobileSignIn.css'
 
 import React, { useEffect } from 'react'
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth"
-import { logEvent } from "firebase/analytics"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
 import { Helmet } from 'react-helmet-async'
 
-import { analytics, auth } from '../root/App'
+import { auth } from '../root/App'
 
 const provider = new GoogleAuthProvider();
 
@@ -16,7 +15,7 @@ function SignInButton() {
     const signInWithGoogle = () => {
         signInWithPopup(auth, provider)
           .then(() => {
-            logEvent(analytics, 'sign_in')
+            // logEvent(analytics, 'sign_in')
           }).catch((error) => {
             const errorCode = error.code
             const errorMessage = error.message
