@@ -2,16 +2,16 @@ import '../styles/MobileAccountSetup.css'
 
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { getDoc, doc, writeBatch } from "firebase/firestore"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { v4 } from "uuid"
 import { Helmet } from 'react-helmet-async'
 
-import { storage, database, auth } from '../root/App'
+import { storage, database } from '../root/App'
 
 
-function MobileAccountSetup() {
+function MobileAccountSetup(props) {
+    const { signedIn } = props
 
     const navigate = useNavigate()
 
@@ -21,28 +21,22 @@ function MobileAccountSetup() {
     const [name, setName] = useState("")
     const [username, setUsername] = useState("")
     const [useRequired, setUseRequired] = useState(false)
-    const [signedIn, loading] = useAuthState(auth)
-
     const [showAccountSetup, setShowAccountSetup] = useState(false)
-
-
     const [loadingImages, setLoadingImages] = useState(0)
 
     useEffect(() => {
-        if (!loading) {
-            if (signedIn) {
-                getDoc(doc(database, 'users', signedIn.uid)).then(document => {
-                    if (document.exists()) {
-                        navigate('/home')
-                    } else {
-                        setShowAccountSetup(true)
-                    }
-                })
-            } else {
-                navigate('/')
-            }
+        if (signedIn) {
+            getDoc(doc(database, 'users', signedIn.uid)).then(document => {
+                if (document.exists()) {
+                    navigate('/home')
+                } else {
+                    setShowAccountSetup(true)
+                }
+            })
+        } else {
+            navigate('/')
         }
-    }, [signedIn, loading, showAccountSetup, navigate])
+    }, [signedIn, showAccountSetup, navigate])
 
 
     const createUser = () => {

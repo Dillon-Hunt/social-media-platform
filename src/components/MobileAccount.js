@@ -6,14 +6,16 @@ function MobileAccount(props) {
     return (
       <div className="MobileAccount">
         {
-          user.length !== 0 ? <>
+          user !== null ? <>
             <div className='MobileAccount__ImageContainer'>
               <img className="MobileAccount__ProfileIcon" src={user.data.profileIcon} alt={user.username} />
             </div>
             <p className="MobileAccount__Name">{user.data.name}</p>
             <p className="MobileAccount__Username">{user.data.username}</p>
           </> : <>
-            <div className="MobileAccount__ProfileIcon" style={{marginLeft: '1px'}} />
+            <div className='MobileAccount__ImageContainer'>
+              <div className="MobileAccount__ProfileIcon" style={{marginLeft: '1px'}} />
+            </div>
             <div className='MobileAccount__Placeholder__Name' />
             <div className='MobileAccount__Placeholder__Username' />
           </>

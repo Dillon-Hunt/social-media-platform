@@ -3,41 +3,31 @@ import '../styles/MobileNewPost.css'
 import MobileNavigationBar from '../components/MobileNavigationBar'
 
 import React, { useState, useEffect } from "react"
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
 import { doc, writeBatch, arrayUnion } from "firebase/firestore"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { v4 } from "uuid"
 import { Helmet } from 'react-helmet-async'
 
-import { storage, database, auth } from '../root/App'
+import { storage, database } from '../root/App'
 
 
-function MobileNewPost() {
+function MobileNewPost(props) {
+    const { signedIn } = props
 
     const [caption, setCaption] = useState('')
     const [tags, setTags] = useState([])
     const [images, setImages] = useState([])
-    const [signedIn, loading] = useAuthState(auth)
 
     const [loadingImages, setLoadingImages] = useState(0)
   
     const navigate = useNavigate()
   
     useEffect(() => {
-      if (!loading && !signedIn) {
-          navigate('/setup')
+      if (!signedIn) {
+          navigate('/')
       }
-    }, [signedIn, loading, navigate])
-
-    useEffect(() => {
-        if (!loading) {
-            if (!signedIn) {
-                navigate('/')
-            }
-        }
-    }, [signedIn, loading, navigate])
-
+    }, [signedIn, navigate])
 
     const createPost = () => {
         let post = {

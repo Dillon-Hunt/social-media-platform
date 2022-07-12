@@ -3,18 +3,16 @@ import MobileProfileOverlay from '../components/MobileProfileOverlay'
 import MobileNavigationBar from '../components/MobileNavigationBar'
 
 import React, { useEffect, useState } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate, useParams } from "react-router-dom"
 import { getDoc, doc, getDocs, query, collection, orderBy } from 'firebase/firestore'
 import { Helmet } from 'react-helmet-async'
 
-import { auth, database } from '../root/App'
+import { database } from '../root/App'
 
 
-function MobileUserProfile() {
+function MobileUserProfile(props) {
+    const { signedIn } = props
     let { username } = useParams()
-
-    const [signedIn, loading] = useAuthState(auth)
     
     let [user, setSetUser] = useState(null)
     let [posts, setPosts] = useState(null)
@@ -22,7 +20,7 @@ function MobileUserProfile() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (!loading && signedIn) {
+        if (signedIn) {
             getDoc(doc(database, 'usernames', username)).then(usernameDoc => {
                 if (!usernameDoc.exists()) {
                     navigate('/404')
@@ -45,16 +43,10 @@ function MobileUserProfile() {
                     })
                 }
             })
-        }
-    }, [signedIn, loading, navigate, username])
-
-    useEffect(() => {
-        if (!loading) {
-        if (!signedIn) {
+        } else {
             navigate('/')
         }
-        }
-    }, [signedIn, loading, navigate])
+    }, [signedIn, navigate, username])
 
     return (
         <div className="MobileProfile">

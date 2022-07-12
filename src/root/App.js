@@ -56,13 +56,15 @@ function App() {
     });
   })
 
-  const [loggedIn, loading] = useAuthState(auth)
+  const [signedIn, loading] = useAuthState(auth)
 
   useEffect(() => {
-    if (!loading && loggedIn) {
-      console.log(`Hello ${loggedIn.displayName}!`)
+    if (!loading) {
+      if (signedIn) {
+        console.log(`Hello ${signedIn.displayName}!`)
+      } 
     }
-  }, [loggedIn, loading])
+  }, [signedIn, loading])
 
   return (
     <div className="App">
@@ -74,23 +76,34 @@ function App() {
         </p>
 
         :
+        
         <HelmetProvider>
           <BrowserRouter>
             <Routes>
-              <Route index path='/' element={<MobileSignIn />} />
-              <Route path='/setup' element={<MobileAccountSetup />} />
-              <Route path='/home' element={<MobileHome />} />
-              <Route path='/search' element={<MobileSearch communities={communities} />} />
-              <Route path='/post' element={<MobileNewPost />} />
-              <Route path='/messages' element={<MobileFriends />} />
-              <Route path='/chats/:chatId' element={<MobileChat />} />
-              <Route path='/profile' element={<MobileProfile />} />
-              <Route path='/profile/:page' element={<MobileProfile />} />
-              <Route path='/users/:username' element={<MobileUserProfile />} />
+              
+              {
+                signedIn === null ?
+                <>
+                  <Route path="*" element={<MobileSignIn signedIn={signedIn} />} />
+                </>
 
-              <Route path="*" element={<NoPage />} />
+                :
+
+                <>
+                  <Route index path="/" element={<MobileSignIn signedIn={signedIn} />} />
+                  <Route path='/setup' element={<MobileAccountSetup signedIn={signedIn} />} />
+                  <Route path='/home' element={<MobileHome signedIn={signedIn} />} />
+                  <Route path='/search' element={<MobileSearch signedIn={signedIn} communities={communities} />} />
+                  <Route path='/post' element={<MobileNewPost signedIn={signedIn} />} />
+                  <Route path='/messages' element={<MobileFriends signedIn={signedIn} />} />
+                  <Route path='/chats/:chatId' element={<MobileChat signedIn={signedIn} />} />
+                  <Route path='/profile' element={<MobileProfile signedIn={signedIn} />} />
+                  <Route path='/profile/:page' element={<MobileProfile signedIn={signedIn} />} />
+                  <Route path='/users/:username' element={<MobileUserProfile signedIn={signedIn} />} />
+                  <Route path="*" element={<NoPage />} />
+                </>
+              }
             </Routes>
-
           </BrowserRouter>
         </HelmetProvider>
       }

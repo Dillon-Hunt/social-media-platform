@@ -2,7 +2,6 @@ import '../styles/MobileSignIn.css'
 
 import React, { useEffect } from 'react'
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth"
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
 import { Helmet } from 'react-helmet-async'
 
@@ -12,35 +11,42 @@ const provider = new GoogleAuthProvider();
 
 function SignInButton() {
 
-    const signInWithGoogle = () => {
-        signInWithPopup(auth, provider)
-          .then(() => {
-            // logEvent(analytics, 'sign_in')
-          }).catch((error) => {
-            const errorCode = error.code
-            const errorMessage = error.message
+  const navigate = useNavigate()
 
-            console.log(errorCode, errorMessage)
-        })
-    }
+  const signInWithGoogle = () => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          if (result._tokenResponse.isNewUser) {
+            navigate('/setup')
+          } else {
+            navigate('/')
+            // logEvent(analytics, 'sign_in')
+          }
+        }).catch((error) => {
+          const errorCode = error.code
+          const errorMessage = error.message
+
+          console.log(errorCode, errorMessage)
+      })
+  }
   
-    return (
-      <button className="MobileSignIn__Button" onClick={signInWithGoogle}>
-        <img src={'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg'} alt='' /> 
-        <p className='MobileSignIn__Button__Text'>Sign in with Google</p>
-      </button>
-    )
+  return (
+    <button className="MobileSignIn__Button" onClick={signInWithGoogle}>
+      <img src={'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg'} alt='' /> 
+      <p className='MobileSignIn__Button__Text'>Sign in with Google</p>
+    </button>
+  )
 }
 
 export function SignOutButton() {
     const SignOut = () => {
-        signOut(auth).then(() => {
-            console.log('Signed Out')
-          }).catch((error) => {
-            const errorCode = error.code
-            const errorMessage = error.message
-            console.log(errorCode, errorMessage)
-          })
+      signOut(auth).then(() => {
+          console.log('Signed Out')
+        }).catch((error) => {
+          const errorCode = error.code
+          const errorMessage = error.message
+          console.log(errorCode, errorMessage)
+        })
     }
   
     return (
@@ -51,28 +57,35 @@ export function SignOutButton() {
 }
 
 
-function MobileSignIn() {
-    const navigate = useNavigate()
+function MobileSignIn(props) {
+  const { signedIn } = props
+  const path = window.location.pathname
 
-    const [user] = useAuthState(auth)
+  const navigate = useNavigate()
 
-    useEffect(() => {
-        if (user) {
-            navigate('/setup')
-        }
-    })
+  useEffect(() => {
+    if (path !== '/') {
+      navigate('/')
+    }
+  }, [path, navigate])
 
-    return (
-        <div>
-            <Helmet>
-                <title>Sign In</title>
-                <meta name="description" content="Sign in or sign up here" />
-            </Helmet>
-            <h1 className="MobileSignIn__Text">Social Media App</h1>
-            <SignInButton />
-            {/* <SignOutButton /> */}
-        </div>
-    )
+  useEffect(() => {
+    if (signedIn) {
+      navigate('/home')
+    }
+  }, [signedIn, navigate])
+
+  return (
+      <div>
+          <Helmet>
+              <title>Sign In</title>
+              <meta name="description" content="Sign in or sign up here" />
+          </Helmet>
+          <h1 className="MobileSignIn__Text">Social Media App</h1>
+          <SignInButton />
+          {/* <SignOutButton /> */}
+      </div>
+  )
 }
 
 export default MobileSignIn

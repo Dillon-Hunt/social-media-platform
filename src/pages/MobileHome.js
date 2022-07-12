@@ -9,77 +9,77 @@ import MobileNavigationBar from '../components/MobileNavigationBar'
 
 import React, { useState, useEffect } from "react"
 import { collection, getDocs, getDoc, doc, query, where, documentId, orderBy } from "firebase/firestore"
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
 import { Helmet } from 'react-helmet-async'
 
-import { auth, database } from '../root/App'
+import { database } from '../root/App'
 
-function MobileHome() {
+function MobileHome(props) {
+  const { signedIn } = props
+
   let [posts, setPosts] = useState(null)
   let [stories, setStories] = useState([])
-  const [signedIn, loading] = useAuthState(auth)
   let [user, setSetUser] = useState([])
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!loading && signedIn) {
+    if (signedIn) {
       getDoc(doc(database, 'users', signedIn.uid)).then(document => {
        setSetUser({ id: document.id, data: document.data() })
        if (!document.exists()) {
         navigate('/setup')
        }
       })
+    } else {
+      navigate('/')
     }
-  }, [signedIn, loading, navigate])
+  }, [signedIn, navigate])
 
   useEffect(() => {
-      if (!loading) {
-        if (signedIn) {
-          getDocs(query(collection(database, 'followers'), where('users', 'array-contains', signedIn.uid))).then(async followers => {
-            let followerIds = await Promise.all(followers.docs.map(doc => doc.id))
-            if (followerIds.length === 0) {
-              setPosts("No Posts")
-            } else {
-              let followersData = await getDocs(query(collection(database, 'users'), where(documentId(),'in', followerIds)))
-              followersData = followersData.docs.map(doc => {
-                followersData = doc.data()
-                followersData.id = doc.id
-                return followersData
-              })
-              let recentPostsUnmerged = []
-              let stories = []
-              followersData.forEach(follower => {
-                follower.recentPosts.forEach(post => {
-                  post.user = {
-                    name: follower.name,
-                    username: follower.username,
-                    profileIcon: follower.profileIcon
-                  }
-                  recentPostsUnmerged.push(post)
-                });
-                getDocs(query(collection(database, `users/${follower.id}/stories`), orderBy('time', 'desc'))).then(userStories => {
-                  userStories = userStories.docs.map(doc => doc.data())
-                  if (userStories.length !== 0) {
-                    stories.push({
-                      name: follower.name,
-                      username: follower.username,
-                      stories: userStories,
-                    })
-                  }
-                  setStories(stories)
-                })
-              })
-              let recentPosts = [].concat(recentPostsUnmerged).sort((a, b) => {return a.time - b.time})
-              setPosts(recentPosts)
-            }
-          })
+    if (signedIn) {
+      getDocs(query(collection(database, 'followers'), where('users', 'array-contains', signedIn.uid))).then(async followers => {
+        let followerIds = await Promise.all(followers.docs.map(doc => doc.id))
+        if (followerIds.length === 0) {
+          setPosts("No Posts")
         } else {
-            navigate('/')
+          let followersData = await getDocs(query(collection(database, 'users'), where(documentId(),'in', followerIds)))
+          followersData = followersData.docs.map(doc => {
+            followersData = doc.data()
+            followersData.id = doc.id
+            return followersData
+          })
+          let recentPostsUnmerged = []
+          let stories = []
+          followersData.forEach(follower => {
+            follower.recentPosts.forEach(post => {
+              post.user = {
+                name: follower.name,
+                username: follower.username,
+                profileIcon: follower.profileIcon
+              }
+              recentPostsUnmerged.push(post)
+            });
+            getDocs(query(collection(database, `users/${follower.id}/stories`), orderBy('time', 'desc'))).then(userStories => {
+              userStories = userStories.docs.map(doc => doc.data())
+              if (userStories.length !== 0) {
+                stories.push({
+                  name: follower.name,
+                  username: follower.username,
+                  stories: userStories,
+                })
+              }
+              setStories(stories)
+            })
+          })
+          let recentPosts = [].concat(recentPostsUnmerged).sort((a, b) => {return a.time - b.time})
+          setPosts(recentPosts)
         }
-      }
-  }, [signedIn, loading, navigate])
+      })
+    } else {
+        navigate('/')
+    }
+  }, [signedIn, navigate])
 
   return (
     <div className="MobileHome">

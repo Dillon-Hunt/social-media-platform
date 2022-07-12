@@ -1,13 +1,12 @@
 import '../styles/MobileSearch.css'
 
 import React, { useState, useEffect } from "react"
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
 import { getDoc, doc, getDocs, collection, where, query } from "firebase/firestore"
 import algoliasearch from 'algoliasearch/lite'
 import { Helmet } from 'react-helmet-async'
 
-import { database, auth } from '../root/App'
+import { database } from '../root/App'
 
 import MobileCommunityThumbnail from '../components/MobileCommunityThumbnail'
 import MobilePost from '../components/MobilePost'
@@ -21,20 +20,19 @@ const searchClient = algoliasearch(
 )
 
 function MobileSearch(props) {
-  let { communities } = props
+  let { communities, signedIn } = props
 
   let [results, setResults] = useState([])  
   let [userResults, setUserResults] = useState([])  
 
   let [follows, setFollows] = useState([])  
   
-  const [signedIn, loading] = useAuthState(auth)
   let [user, setSetUser] = useState([])
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!loading && signedIn) {
+    if (signedIn) {
       getDoc(doc(database, 'users', signedIn.uid)).then(document => {
         if (!document.exists()) {
           navigate('/setup')
@@ -46,17 +44,10 @@ function MobileSearch(props) {
           })
         }
       })
+    } else {
+      navigate('/')
     }
-  }, [signedIn, loading, navigate])
-
-  useEffect(() => {
-    if (!loading) {
-      if (!signedIn) {
-        navigate('/')
-      }
-    }
-  }, [signedIn, loading, navigate])
-
+  }, [signedIn, navigate])
 
   let index = searchClient.initIndex("post_search")
   let userIndex = searchClient.initIndex("user_search")

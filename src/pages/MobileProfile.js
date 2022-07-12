@@ -3,16 +3,15 @@ import MobileProfileOverlay from '../components/MobileProfileOverlay'
 import MobileNavigationBar from '../components/MobileNavigationBar'
 
 import React, { useEffect, useState } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from "react-router-dom"
 import { getDoc, doc, getDocs, query, collection, orderBy } from 'firebase/firestore'
 import { Helmet } from 'react-helmet-async'
 
-import { auth, database } from '../root/App'
+import { database } from '../root/App'
 
 
-function MobileProfile() {
-  const [signedIn, loading] = useAuthState(auth)
+function MobileProfile(props) {
+  const { signedIn } = props
   
   let [user, setSetUser] = useState(null)
   let [posts, setPosts] = useState(null)
@@ -20,7 +19,7 @@ function MobileProfile() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!loading && signedIn) {
+    if (signedIn) {
       getDoc(doc(database, 'users', signedIn.uid)).then(async document => {
         let users = document.data()
         users.followers = await (await getDoc(doc(database, 'followers', signedIn.uid))).data().users.length
@@ -37,29 +36,19 @@ function MobileProfile() {
           setPosts(posts)
         })
       })
+    } else {
+      navigate('/')
     }
-  }, [signedIn, loading, navigate])
-
-  useEffect(() => {
-    if (!loading) {
-      if (!signedIn) {
-        navigate('/')
-      }
-    }
-  }, [signedIn, loading, navigate])
+  }, [signedIn, navigate])
 
   return (
     <div className="MobileProfile">
       <Helmet>
         <title>{user === null ? 'Social Media App' : `${user.data.username} | Social Media App`}</title>
       </Helmet>
-      {
-        user && <>
-        <MobileProfileBanner user={user} />
-        <MobileProfileOverlay user={user} posts={posts} />
-        <MobileNavigationBar />
-        </>
-      }
+      <MobileProfileBanner user={user} />
+      <MobileProfileOverlay user={user} posts={posts} />
+      <MobileNavigationBar />
     </div>
   );
 }

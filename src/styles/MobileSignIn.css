@@ -12,11 +12,13 @@
     padding: 10px;
 
     transform: translateX(-50%);
+    background-color: var(--light-charade);
 
     flex-direction: row;
     border: none;
     display: flex;
     position: absolute;
+    cursor: pointer;
 }
 
 .MobileSignIn__Button__Text {

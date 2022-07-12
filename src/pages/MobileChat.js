@@ -3,7 +3,6 @@ import '../styles/MobileChat.css'
 import MobileMessage from '../components/MobileMessage'
 
 import { useParams } from 'react-router-dom'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate, Link } from "react-router-dom"
@@ -11,7 +10,8 @@ import { collection, orderBy, limit, query, onSnapshot, addDoc } from 'firebase/
 
 import { auth, database } from '../root/App'
 
-function MobileChat() {
+function MobileChat(props) {
+  const { signedIn } = props
   let { chatId } = useParams()
 
   const [messages, setMessages] = useState([])
@@ -23,8 +23,6 @@ function MobileChat() {
     snapshot.docs.map(doc => doc.data()).length !== messages.length && setMessages(snapshot.docs.map(doc => doc.data()).reverse())
   })
 
-  const [signedIn, loading] = useAuthState(auth)
-
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -32,12 +30,10 @@ function MobileChat() {
   }, [messages])
 
   useEffect(() => {
-      if (!loading) {
-        if (!signedIn) {
-          navigate('/')
-        }
+      if (!signedIn) {
+        navigate('/')
       }
-  }, [signedIn, loading, navigate, messages])
+  }, [signedIn, navigate, messages])
 
   const postMessage = async (e) => {
     e.preventDefault()
