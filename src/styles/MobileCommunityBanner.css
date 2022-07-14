@@ -1,0 +1,29 @@
+.MobileCommunityBanner {
+    width: 100%;
+    height: 250px;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    object-fit: cover;
+    position: absolute;
+    background-color: var(--light-charade);
+}
+
+.MobileCommunityBanner__Content {
+    width: 80vw;
+    
+    top: 125px;
+    left: 50%;
+    border-radius: 10px;
+
+    background-color: rgba(0, 0, 0, .8);
+    transform: translate(-50%, -50%);
+
+    position: absolute;
+}
+
+.MobileCommunityBanner__Content__Name {
+    color: var(--white);
+
+    text-align: center;
+}

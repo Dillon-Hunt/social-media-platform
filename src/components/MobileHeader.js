@@ -5,7 +5,7 @@ import { SignOutButton } from '../pages/MobileSignIn'
 let newNotifications = false
 
 function MobileHeader(props) {
-  const { user } = props
+  const { name } = props
 
   var hours = new Date().getHours();
 
@@ -22,7 +22,7 @@ function MobileHeader(props) {
 
   return (
     <div className="MobileHeader">
-        <h2 className="MobileHeader__Title">Hi{user.data !== undefined ? ", " +user.data.name : ""}</h2>
+        <h2 className="MobileHeader__Title">Hi, {name}</h2>
         <h3 className="MobileHeader__Subtitle">{message} <SignOutButton /></h3>
 
         <div className="NotificationBell">

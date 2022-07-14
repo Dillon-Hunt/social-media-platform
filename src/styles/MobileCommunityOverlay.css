@@ -1,0 +1,32 @@
+.MobileCommunityOverlay {
+    width: 100%;
+
+    margin: 225px 0 0 -20px;
+    border-radius: 10px;
+    padding: 20px;
+
+    background-color: var(--charade);
+
+    position: relative;
+}
+
+.MobileCommunityOverlay__Overlap {
+    width: calc(100vw - 40px);
+
+    top: -30px;
+    border-radius: 10px;
+
+    background-color: var(--charade);
+
+    position: absolute;
+}
+
+.MobileCommunityOverlay__Overlap__Name {
+    text-align: center;
+
+    font-weight: 400;
+    padding: 0 20px;
+
+    color: var(--white);
+    font-size: var(--font-14);
+}

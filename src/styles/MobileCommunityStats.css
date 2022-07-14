@@ -1,0 +1,32 @@
+.MobileCommunityStats {
+    width: 100%;
+
+    margin: 20px 0 0 0;
+    border-radius: 10px;
+    column-gap: calc(100% / 3 - 100px);
+
+    border: 2px solid var(--light-charade);
+    color: var(--white);
+
+    display: flex;
+    justify-content: center;
+}
+
+.MobileCommunityStats__Stat {
+    width: 100px;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.MobileCommunityStats__Stat__Count {
+    margin: 10px 0 2px 0;
+    font-weight: 600;
+}
+
+.MobileCommunityStats__Stat__Name {
+    margin: 0 0 10px 0;
+    font-weight: 300;
+}

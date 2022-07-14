@@ -12,6 +12,7 @@ import MobileSearch from '../pages/MobileSearch'
 import MobileNewPost from '../pages/MobileNewPost'
 import MobileFriends from '../pages/MobileFriends'
 import MobileChat from '../pages/MobileChat'
+import MobileCommunity from '../pages/MobileCommunity'
 import MobileProfile from '../pages/MobileProfile'
 import MobileUserProfile from '../pages/MobileUserProfile'
 
@@ -97,6 +98,7 @@ function App() {
                   <Route path='/post' element={<MobileNewPost signedIn={signedIn} />} />
                   <Route path='/messages' element={<MobileFriends signedIn={signedIn} />} />
                   <Route path='/chats/:chatId' element={<MobileChat signedIn={signedIn} />} />
+                  <Route path='/community/:communityId' element={<MobileCommunity signedIn={signedIn} />} />
                   <Route path='/profile' element={<MobileProfile signedIn={signedIn} />} />
                   <Route path='/profile/:page' element={<MobileProfile signedIn={signedIn} />} />
                   <Route path='/users/:username' element={<MobileUserProfile signedIn={signedIn} />} />
