@@ -51,3 +51,42 @@ body {
     animation: App-logo-spin infinite 20s linear;
   }
 }
+
+.NoInternet {
+  width: calc(100vw - 60px);
+
+  bottom: -20px;
+  opacity: 0;
+  left: 20px;
+  border-radius: 10px;
+  padding-left: 20px;
+
+  background-color: var(--light-charade);
+
+  position: absolute;
+  transition: 1s ease-in-out;
+}
+
+.NoInternet[isonline = false] {
+  bottom: 20px;
+  opacity: 1;
+}
+
+.NoInternet__Text {
+  font-weight: 300;
+  margin-left: 40px;
+
+  color: var(--white);
+
+  text-align: left;
+}
+
+.NoInternet__Image {
+  height: 30px;
+  width: 30px;
+
+  top: 10px;
+
+  color: #fff;
+  position: absolute;
+}

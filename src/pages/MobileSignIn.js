@@ -81,7 +81,7 @@ function MobileSignIn(props) {
               <title>Sign In</title>
               <meta name="description" content="Sign in or sign up here" />
           </Helmet>
-          <h1 className="MobileSignIn__Text">Social Media App</h1>
+          <h1 className="MobileSignIn__Text">Sign In</h1>
           <SignInButton />
           {/* <SignOutButton /> */}
       </div>

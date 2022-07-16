@@ -3,6 +3,7 @@ import '../styles/App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import React, { useEffect } from "react"
 import { HelmetProvider } from 'react-helmet-async'
+import useOnlineStatus from '@rehooks/online-status';
 
 // Mobile
 import MobileSignIn from '../pages/MobileSignIn';
@@ -57,6 +58,8 @@ function App() {
     });
   })
 
+  const isOnline = useOnlineStatus()
+
   const [signedIn, loading] = useAuthState(auth)
 
   useEffect(() => {
@@ -108,6 +111,10 @@ function App() {
             </Routes>
           </BrowserRouter>
         </HelmetProvider>
+      }
+      {
+        // Add a "Reconnected To Internet Popup"
+        <div className='NoInternet' isonline={isOnline.toString()}><img className='NoInternet__Image' src="../../assets/error.svg" alt=""/><p className='NoInternet__Text'>No Internet Connection</p></div>
       }
     </div>
   );
