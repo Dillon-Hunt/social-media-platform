@@ -9,6 +9,11 @@ import { auth } from '../root/App'
 
 const provider = new GoogleAuthProvider();
 
+// Google provider config
+provider.setCustomParameters({
+  prompt: 'select_account'
+})
+
 function SignInButton() {
 
   const navigate = useNavigate()
