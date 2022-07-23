@@ -2,4 +2,7 @@
 
 You can view the preview [over here](https://social-media-app-fcc1f.web.app/).
 
-![Mobile App Design](https://dillon-hunt.com/assets/SocialMediaApp/Search.png)
+
+Figma designs for the social media app:
+![Mobile App Design](/public/Designs_1.png)
+![Mobile App Design](/public/Designs_2.png)
